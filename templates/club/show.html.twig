@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>{{ club.name }}</h1>
+
+    <p>Email: {{ club.email }}</p>
+    <p>Budget: {{ club.budget }}</p>
+    <!-- Add more club details as needed -->
+
+{#    <a href="{{ path('clubs_edit', { 'id': club.id }) }}">Edit</a>#}
+{#    <a href="{{ path('clubs_delete', { 'id': club.id }) }}">Delete</a>#}
+{% endblock %}
