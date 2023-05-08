@@ -1,4 +1,7 @@
-{{ form_start(form) }}
-{{ form_widget(form) }}
-<button type="submit">Create</button>
-{{ form_end(form) }}
+<form action="{{ path('club_create') }}" method="POST">
+    {# form fields #}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+</form>
+
