@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Validator;
+namespace App\Validator\Constraints;
 
 use App\Repository\ClubRepository;
 use Symfony\Component\Validator\Constraint;

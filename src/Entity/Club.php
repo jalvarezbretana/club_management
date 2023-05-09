@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ClubRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
 class Club
@@ -76,5 +79,21 @@ class Club
         $this->phone = $phone;
 
         return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'name',
+            'message' => 'This name is already taken'
+        ]))
+            ->addConstraint(new UniqueEntity([
+                'fields' => 'email',
+                'message' => 'This email is already taken'
+            ]))
+            ->addConstraint(new UniqueEntity([
+                'fields' => 'phone',
+                'message' => 'This phone is already taken'
+            ]));
     }
 }
