@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -28,9 +26,9 @@ class ClubController extends AbstractController
     #[Route('/clubs', name: 'club_index', methods: 'GET')]
     public function index(): Response
     {
-        $clubs = $this->clubRepository->findAll();
+        $club = $this->clubRepository->findAll();
 
-        return $this->json($clubs, 200, [], ['groups' => 'club']);
+        return $this->json($club, 200, [], ['groups' => 'club']);
     }
 
     #[Route('/clubs', name: 'club_create', methods: 'POST')]

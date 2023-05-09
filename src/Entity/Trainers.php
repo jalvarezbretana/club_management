@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TrainerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: TrainerRepository::class)]
 class Trainers
@@ -106,5 +108,20 @@ class Trainers
         $this->phone = $phone;
 
         return $this;
+    }
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'dni',
+            'message' => 'The dni already exists'
+        ]))
+            ->addConstraint(new UniqueEntity([
+                'fields' => 'email',
+                'message' => 'The email already exists'
+            ]))
+            ->addConstraint(new UniqueEntity([
+                'fields' => 'phone',
+                'message' => 'The phone already exits'
+            ]));
     }
 }

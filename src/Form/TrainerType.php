@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Club;
+use App\Entity\Trainers;
+use App\Validator\Constraints\DniFormat;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Symfony\Component\Validator\Constraints\Range;
 
-class ClubType extends AbstractType
+class TrainerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +21,12 @@ class ClubType extends AbstractType
             ->add('name', null, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(["min" => 3, 'minMessage' => 'The name should contain more than 3 letters']),],
+                    new Length(["min" => 3, 'minMessage' => 'Name should contain more than 3 letters']),],
+            ])
+            ->add('surname', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new Length(["min" => 3, 'minMessage' => 'Name should contain more than 3 letters']),],
             ])
             ->add('email', null, [
                 'constraints' => [
@@ -29,14 +35,20 @@ class ClubType extends AbstractType
 
                 ],
             ])
-            ->add('budget', null, [
+            ->add('dni', null, [
+                'constraints' => [
+                    new NotBlank(),
+                    new DniFormat()
+                ],
+            ])
+            ->add('salary', null, [
                 'constraints' => [
                     new NotBlank(),
                     new PositiveOrZero(),
                     new Range([
-                        'min' => 25000,
-                        'max' => 30000,
-                        'notInRangeMessage' => 'The initial budget should be between {{ min }} and {{ max }}'
+                        'min' => 1250,
+                        'max' => 2000,
+                        'notInRangeMessage' => 'The salary should be between {{ min }} and {{ max }}'
                     ])
                 ],
             ])
@@ -59,7 +71,7 @@ class ClubType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Club::class,
+            'data_class' => Trainers::class,
         ]);
     }
 

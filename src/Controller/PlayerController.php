@@ -3,17 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Players;
+use App\Form\PlayerType;
+use App\Helper\FormErrorsToArray;
 use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PlayerController extends AbstractController
 {
 
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly PlayerRepository $playerRepository)
+    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly PlayerRepository $playerRepository, private readonly ValidatorInterface $validator)
     {
 
     }
@@ -29,85 +33,45 @@ class PlayerController extends AbstractController
 
 
     #[Route('/players', name: 'player_create', methods: 'POST')]
-    public function create(Request $request): Response
+    public function create(Request $request, PlayerRepository $playerRepository): Response
     {
-        $data = json_decode($request->getContent(), true);
-
-        $player = new Players();
-        $player->setName($data['name'] ?? 'Default name')
-            ->setSurname($data['surname'] ?? 'Default surname')
-            ->setDni($data['dni'] ?? '0000000A')
-            ->setEmail($data['email'] ?? 'Default email')
-            ->setSalary(rand(1100, 1800)
-            );
-        // Set other properties of the player
-
-        $this->entityManager->persist($player);
-        $this->entityManager->flush();
-
-        return $this->json($player, 201, [], ['groups' => 'player']);
-//        return new Response(sprintf(
-//            'Id: %s, Player name:%s, %s, DNI: %s,  Email: %s, Salary: %d',
-//            $player->getId(),
-//            $player->getName(),
-//            $player->getSurname(),
-//            $player->getDNI(),
-//            $player->getEmail(),
-//            $player->getSalary()
-//        ));
+        $players = new Players();
+        $form = $this->createForm(PlayerType::class, $players);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $playerRepository->save($players, true);
+            return new JsonResponse(['message' => 'Player created successfully'], Response::HTTP_CREATED);
+        }
+        return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
 
 
     #[Route('/players/{id}', name: 'player_show', methods: 'GET')]
-    public function show(Players $player): Response
+    public function show(Players $players): Response
     {
-        return $this->json($player, 201, [], ['groups' => 'player']);
+        return $this->json($players, 201, [], ['groups' => 'club']);
 
-//        return new Response(sprintf(
-//            'Id: %s, Player name:%s, %s, DNI: %s,  Email: %s, Salary: %d',
-//            $player->getId(),
-//            $player->getName(),
-//            $player->getSurname(),
-//            $player->getDNI(),
-//            $player->getEmail(),
-//            $player->getSalary()
-//        ));
     }
 
 
     #[Route('/players/{id}', name: 'player_update', methods: 'PUT')]
-    public function update(Request $request, Players $player): Response
+    public function update(Request $request, Players $players, PlayerRepository $playerRepository): Response
     {
-        $data = json_decode($request->getContent(), true);
-
-        $player->setName($data['name'] ?? 'Victor')
-            ->setSurname($data['surname'] ?? 'Arana')
-            ->setDni($data['dni'] ?? '0000000A')
-            ->setEmail($data['email'] ?? 'victor@email.com')
-            ->setSalary(rand(1100, 1800)
-            );
-        // Update other properties of the club
-
-        $this->entityManager->flush();
-        return $this->json($player, 201, [], ['groups' => 'player']);
-
-//        return new Response(sprintf(
-//            'Id: %s, Player name:%s, %s, DNI: %s,  Email: %s, Salary: %d',
-//            $player->getId(),
-//            $player->getName(),
-//            $player->getSurname(),
-//            $player->getDNI(),
-//            $player->getEmail(),
-//            $player->getSalary()
-//        ));
+        $form = $this->createForm(PlayerType::class, $players, ["method" => "PUT"]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $players = $form->getData();
+            $playerRepository->save($players, true);
+            return new JsonResponse(['message' => 'Player edited successfully'], Response::HTTP_CREATED);
+        }
+        return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
 
 
     #[Route('/players/{id}', name: 'player_delete', methods: 'DELETE')]
-    public function delete(Players $player): Response
+    public function delete(Players $players, PlayerRepository $playerRepository): Response
     {
-        $this->entityManager->remove($player);
-        $this->entityManager->flush();
+        $playerRepository->remove($players, true);
 
         return $this->json(null, 204);
     }

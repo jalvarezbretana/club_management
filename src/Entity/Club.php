@@ -85,15 +85,15 @@ class Club
     {
         $metadata->addConstraint(new UniqueEntity([
             'fields' => 'name',
-            'message' => 'This name is already taken'
+            'message' => 'The name is already exists'
         ]))
             ->addConstraint(new UniqueEntity([
                 'fields' => 'email',
-                'message' => 'This email is already taken'
+                'message' => 'The email already exists'
             ]))
             ->addConstraint(new UniqueEntity([
                 'fields' => 'phone',
-                'message' => 'This phone is already taken'
+                'message' => 'The phone already exists'
             ]));
     }
 }
