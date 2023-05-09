@@ -21,12 +21,12 @@ class TrainerType extends AbstractType
             ->add('name', null, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(["min" => 3, 'minMessage' => 'Name should contain more than 3 letters']),],
+                    new Length(["min" => 3, 'minMessage' => 'The name should contain more than 3 letters']),],
             ])
             ->add('surname', null, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(["min" => 3, 'minMessage' => 'Name should contain more than 3 letters']),],
+                    new Length(["min" => 3, 'minMessage' => 'The surname should contain more than 3 letters']),],
             ])
             ->add('email', null, [
                 'constraints' => [
@@ -46,8 +46,8 @@ class TrainerType extends AbstractType
                     new NotBlank(),
                     new PositiveOrZero(),
                     new Range([
-                        'min' => 1250,
-                        'max' => 2000,
+                        'min' => 2000,
+                        'max' => 3000,
                         'notInRangeMessage' => 'The salary should be between {{ min }} and {{ max }}'
                     ])
                 ],

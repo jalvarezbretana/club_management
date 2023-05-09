@@ -40,7 +40,7 @@ class TrainerController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trainerRepository->save($trainers, true);
-            return new JsonResponse(['message' => 'Player created successfully'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Trainer created successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
