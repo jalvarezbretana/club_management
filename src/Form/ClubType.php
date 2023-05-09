@@ -3,21 +3,14 @@
 namespace App\Form;
 
 use App\Entity\Club;
-use PhpParser\Node\Expr\BinaryOp\NotEqual;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Collection;
 use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\IsNull;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotEqualTo;
-use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Symfony\Component\Validator\Constraints\Range;
-use Symfony\Component\Validator\Constraints\Unique;
 
 class ClubType extends AbstractType
 {
@@ -27,9 +20,7 @@ class ClubType extends AbstractType
             ->add('name', null, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(["min" => 3, 'minMessage'=> 'Name should contain more than 3 letters']),
-                ],
-
+                    new Length(["min" => 3, 'minMessage' => 'Name should contain more than 3 letters']),],
             ])
             ->add('email', null, [
                 'constraints' => [

@@ -56,10 +56,11 @@ class ClubController extends AbstractController
     #[Route('/clubs/{id}', name: 'club_update', methods: 'PUT')]
     public function update(Request $request, Club $club, ClubRepository $clubRepository): Response
     {
-
-        $form = $this->createForm(ClubType::class, $club);
+        $form = $this->createForm(ClubType::class);
+        var_dump($club);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $club = $form->getData();
             $clubRepository->save($club, true);
             return new JsonResponse(['message' => 'Club edited successfully'], Response::HTTP_CREATED);
         }
