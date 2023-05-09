@@ -78,7 +78,8 @@ services with ```symfony serve -d```.
 
 After that, I ran ```composer require symfony/orm-pack``` to install the orm-pack from symfony, then opened the new
 created ```.env``` and
-pasted: ```DATABASE_URL="mysql://root:root@127.0.0.1:3306/club_management?serverVersion=5.7"``` at the bottom, to connect
+pasted: ```DATABASE_URL="mysql://root:root@127.0.0.1:3306/club_management?serverVersion=5.7"``` at the bottom, to
+connect
 it with **MySQL**.
 
 Later, I had created the database with ```php bin/console doctrine:database:create```. Then, I had to install the
@@ -91,7 +92,7 @@ etc**.
 After creating the entities I had to migrate them to my MySQL database. First with ```php bin/console make:migration```
 to create the migration and second ```php bin/console doctrine:migrations:migrate``` to migrate it.
 
-After doing this, I created the controllers manually in the dir **src/Controller** and started coding the
+Then, I created the controllers manually in the dir **src/Controller** and started coding the
 **CRUD**. Next, I installed the forms with ```composer require symfony/form``` and made the form **ClubType**
 with ```php bin/console make:form```.
 
@@ -99,6 +100,24 @@ The next step I did was to install ```composer require symfony/validator```.
 
 After this, I started the coding of the **buildForm** in **ClubType** and changed the code **ClubController** of the
 function **create** to a form with a **validator**.
+
+Later, I did all the functions of the **CRUD** with a better code and a form in create (**'POST'**) and update
+(**'PUT'**), next I started to coding the **'constraints'** on **ClubType** to make some restrictions in the inserts.
+When I finished this form, I started the update of the other **Controllers** and **Forms**. And, I started the code so
+that the **'value'** of a **'field'** is not repeated, in each **Entity**, with this function:
+
+``` 
+public static function loadValidatorMetadata(ClassMetadata $metadata)
+{
+$metadata->addConstraint(new UniqueEntity([
+'fields' => 'name',
+'message' => 'The name is already exists'
+]))
+```
+
+Then, I started the coding of a new **Validator/Constraints** named **DniFormat** to make sure that the DNI inserted got
+the 8 numbers and the 1 letter, and added it in ```->add('dni', null, [
+'constraints' => [``` of **PlayerType 'dni'** and **TrainerType 'dni'**.
 
 
 
