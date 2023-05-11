@@ -33,6 +33,9 @@ class Players
     #[ORM\Column]
     private ?int $phone = null;
 
+    #[ORM\ManyToOne(inversedBy: 'playerId')]
+    private ?Club $club = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -124,5 +127,17 @@ class Players
                 'fields' => 'phone',
                 'message' => 'The phone already exits'
             ]));
+    }
+
+    public function getClub(): ?Club
+    {
+        return $this->club;
+    }
+
+    public function setClub(?Club $club): self
+    {
+        $this->club = $club;
+
+        return $this;
     }
 }

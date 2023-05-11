@@ -119,5 +119,7 @@ Then, I started the coding of a new **Validator/Constraints** named **DniFormat*
 the 8 numbers and the 1 letter, and added it in ```->add('dni', null, [
 'constraints' => [``` of **PlayerType 'dni'** and **TrainerType 'dni'**.
 
+Now, I installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
+
 
 

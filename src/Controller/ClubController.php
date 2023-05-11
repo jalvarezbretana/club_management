@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Club;
+use App\Entity\Players;
 use App\Form\ClubType;
+use App\Form\PlayerType;
 use App\Helper\FormErrorsToArray;
 use App\Repository\ClubRepository;
+use App\Repository\PlayerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -70,6 +73,22 @@ class ClubController extends AbstractController
         $clubRepository->remove($club, true);
 
         return $this->json(null, 204);
+    }
+
+    #[Route('/clubs/{id}/players', name: 'club_create_player', methods: 'POST')]
+    public function club_create_player(Request $request, Club $club, PlayerRepository $playerRepository): Response
+    {
+        $players = new Players();
+        $players->setClub($club);
+        $form = $this->createForm(PlayerType::class, $players, ["method" => "POST"]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $players = $form->getData();
+            $playerRepository->save($players, true);
+            return new JsonResponse(['message' => 'Player created in club successfully'], Response::HTTP_CREATED);
+        }
+        return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
+
     }
 
 

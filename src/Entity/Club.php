@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ClubRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -27,6 +29,14 @@ class Club
 
     #[ORM\Column]
     private ?int $phone = null;
+
+    #[ORM\OneToMany(mappedBy: 'club', targetEntity: Players::class)]
+    private Collection $playerId;
+
+    public function __construct()
+    {
+        $this->playerId = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -95,5 +105,35 @@ class Club
                 'fields' => 'phone',
                 'message' => 'The phone already exists'
             ]));
+    }
+
+    /**
+     * @return Collection<int, Players>
+     */
+    public function getPlayerId(): Collection
+    {
+        return $this->playerId;
+    }
+
+    public function addPlayerId(Players $playerId): self
+    {
+        if (!$this->playerId->contains($playerId)) {
+            $this->playerId->add($playerId);
+            $playerId->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayerId(Players $playerId): self
+    {
+        if ($this->playerId->removeElement($playerId)) {
+            // set the owning side to null (unless already changed)
+            if ($playerId->getClub() === $this) {
+                $playerId->setClub(null);
+            }
+        }
+
+        return $this;
     }
 }

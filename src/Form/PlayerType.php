@@ -49,7 +49,8 @@ class PlayerType extends AbstractType
                         'min' => 1250,
                         'max' => 2000,
                         'notInRangeMessage' => 'The salary should be between {{ min }} and {{ max }}'
-                    ])
+                    ]),
+
                 ],
             ])
             ->add('phone', null, [
@@ -63,7 +64,8 @@ class PlayerType extends AbstractType
 
 
                 ]
-            ])// Add more fields as needed
+            ])
+            // Add more fields as needed
 
         ;
     }
