@@ -40,6 +40,7 @@ class ClubController extends AbstractController
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $clubRepository->save($club, true);
             return new JsonResponse(['message' => 'Club created successfully'], Response::HTTP_CREATED);
@@ -59,6 +60,7 @@ class ClubController extends AbstractController
     {
         $form = $this->createForm(ClubType::class, $club, ["method" => "PUT"]);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $club = $form->getData();
             $clubRepository->save($club, true);
@@ -80,15 +82,37 @@ class ClubController extends AbstractController
     {
         $players = new Players();
         $players->setClub($club);
-        $form = $this->createForm(PlayerType::class, $players, ["method" => "POST"]);
+        $form = $this->createForm(PlayerType::class, $players, ["method" => "POST", "club" => $club]);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $players = $form->getData();
             $playerRepository->save($players, true);
             return new JsonResponse(['message' => 'Player created in club successfully'], Response::HTTP_CREATED);
         }
+
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
 
+    }
+
+    #[Route('/clubs/budget/{id}', name: 'club_budget', methods: 'GET')]
+    public function club_budget(Club $club): Response
+    {
+        $players = $club->getPlayers();
+        $totalSalary = 0;
+
+        foreach ($players as $player) {
+            $totalSalary += $player->getSalary();
+        }
+
+        $remainingBudget = $club->getBudget() - $totalSalary;
+
+        return new JsonResponse([
+            'club_id' => $club->getId(),
+            'total_players' => $club->countPlayers(),
+            'total_salary' => $totalSalary,
+            'remaining_budget' => $remainingBudget,
+        ]);
     }
 
 

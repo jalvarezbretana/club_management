@@ -33,8 +33,9 @@ class Players
     #[ORM\Column]
     private ?int $phone = null;
 
-    #[ORM\ManyToOne(inversedBy: 'playerId')]
+    #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Club $club = null;
+
 
     public function getId(): ?int
     {

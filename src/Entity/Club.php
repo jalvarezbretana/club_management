@@ -31,11 +31,11 @@ class Club
     private ?int $phone = null;
 
     #[ORM\OneToMany(mappedBy: 'club', targetEntity: Players::class)]
-    private Collection $playerId;
+    private Collection $players;
 
     public function __construct()
     {
-        $this->playerId = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,30 +110,34 @@ class Club
     /**
      * @return Collection<int, Players>
      */
-    public function getPlayerId(): Collection
+    public function getPlayers(): Collection
     {
-        return $this->playerId;
+        return $this->players;
     }
 
-    public function addPlayerId(Players $playerId): self
+    public function addPlayer(Players $player): self
     {
-        if (!$this->playerId->contains($playerId)) {
-            $this->playerId->add($playerId);
-            $playerId->setClub($this);
+        if (!$this->players->contains($player)) {
+            $this->players->add($player);
+            $player->setClub($this);
         }
 
         return $this;
     }
 
-    public function removePlayerId(Players $playerId): self
+    public function removePlayer(Players $player): self
     {
-        if ($this->playerId->removeElement($playerId)) {
+        if ($this->players->removeElement($player)) {
             // set the owning side to null (unless already changed)
-            if ($playerId->getClub() === $this) {
-                $playerId->setClub(null);
+            if ($player->getClub() === $this) {
+                $player->setClub(null);
             }
         }
 
         return $this;
+    }
+    public function countPlayers():int{
+        return $this->players->count();
+
     }
 }

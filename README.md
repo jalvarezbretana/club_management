@@ -115,9 +115,12 @@ $metadata->addConstraint(new UniqueEntity([
 ]))
 ```
 
-Then, I started the coding of a new **Validator/Constraints** named **DniFormat** to make sure that the DNI inserted got
-the 8 numbers and the 1 letter, and added it in ```->add('dni', null, [
+Then, I started the coding of a new **Validator/Constraints** using ```php bin/console make:validator``` and named 
+**DniFormat** to make sure that the DNI inserted got
+the 8 numbers and the 1 letter. Putting it in ```->add('dni', null, [
 'constraints' => [``` of **PlayerType 'dni'** and **TrainerType 'dni'**.
+
+After all, I commenced the creation of the Validator of ```PlayerSalary``` to validate if the Players' salary was higher than the Club's budget
 
 Now, I installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
 

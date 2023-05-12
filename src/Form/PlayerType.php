@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Players;
 use App\Validator\Constraints\DniFormat;
+use App\Validator\Constraints\PlayerSalary;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,7 +51,7 @@ class PlayerType extends AbstractType
                         'max' => 2000,
                         'notInRangeMessage' => 'The salary should be between {{ min }} and {{ max }}'
                     ]),
-
+                    new PlayerSalary($options["club"]),
                 ],
             ])
             ->add('phone', null, [
@@ -64,9 +65,7 @@ class PlayerType extends AbstractType
 
 
                 ]
-            ])
-            // Add more fields as needed
-
+            ])// Add more fields as needed
         ;
     }
 
@@ -74,6 +73,7 @@ class PlayerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Players::class,
+            'club' => null,
         ]);
     }
 
