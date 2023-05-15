@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 
-use App\Entity\Trainers;
+use App\Entity\Trainer;
 use App\Form\TrainerType;
 use App\Helper\FormErrorsToArray;
 use App\Repository\TrainerRepository;
@@ -22,7 +22,7 @@ class TrainerController extends AbstractController
 
     }
 
-    #[Route('/trainers', name: 'trainer_index', methods: 'GET')]
+    #[Route('/trainer', name: 'trainer_index', methods: 'GET')]
     public function index(): Response
     {
         $trainers = $this->trainerRepository->findAll();
@@ -32,10 +32,10 @@ class TrainerController extends AbstractController
     }
 
 
-    #[Route('/trainers', name: 'trainer_create', methods: 'POST')]
+    #[Route('/trainer', name: 'trainer_create', methods: 'POST')]
     public function create(Request $request, TrainerRepository $trainerRepository): Response
     {
-        $trainers = new Trainers();
+        $trainers = new Trainer();
         $form = $this->createForm(TrainerType::class, $trainers);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,16 +46,16 @@ class TrainerController extends AbstractController
     }
 
 
-    #[Route('/trainers/{id}', name: 'trainer_show', methods: 'GET')]
-    public function show(Trainers $trainers): Response
+    #[Route('/trainer/{id}', name: 'trainer_show', methods: 'GET')]
+    public function show(Trainer $trainers): Response
     {
         return $this->json($trainers, 201, [], ['groups' => 'club']);
 
     }
 
 
-    #[Route('/trainers/{id}', name: 'trainer_update', methods: 'PUT')]
-    public function update(Request $request, Trainers $trainers, TrainerRepository $trainerRepository): Response
+    #[Route('/trainer/{id}', name: 'trainer_update', methods: 'PUT')]
+    public function update(Request $request, Trainer $trainers, TrainerRepository $trainerRepository): Response
     {
         $form = $this->createForm(TrainerType::class, $trainers, ["method" => "PUT"]);
         $form->handleRequest($request);
@@ -68,12 +68,12 @@ class TrainerController extends AbstractController
     }
 
 
-    #[Route('/trainers/{id}', name: 'trainers_delete', methods: 'DELETE')]
-    public function delete(Trainers $trainers, TrainerRepository $trainerRepository): Response
+    #[Route('/trainer/{id}', name: 'trainers_delete', methods: 'DELETE')]
+    public function delete(Trainer $trainers, TrainerRepository $trainerRepository): Response
     {
         $trainerRepository->remove($trainers, true);
 
-        return $this->json(null, 204);
+        return $this->json(["Trainer deleted successfully"]);
     }
 
 }

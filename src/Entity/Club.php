@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 #[ORM\Entity(repositoryClass: ClubRepository::class)]
@@ -30,12 +29,16 @@ class Club
     #[ORM\Column]
     private ?int $phone = null;
 
-    #[ORM\OneToMany(mappedBy: 'club', targetEntity: Players::class)]
+    #[ORM\OneToMany(mappedBy: 'club', targetEntity: Player::class)]
     private Collection $players;
+
+    #[ORM\OneToMany(mappedBy: 'club', targetEntity: Trainer::class)]
+    private Collection $trainers;
 
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->trainers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,14 +111,14 @@ class Club
     }
 
     /**
-     * @return Collection<int, Players>
+     * @return Collection<int, Player>
      */
     public function getPlayers(): Collection
     {
         return $this->players;
     }
 
-    public function addPlayer(Players $player): self
+    public function addPlayer(Player $player): self
     {
         if (!$this->players->contains($player)) {
             $this->players->add($player);
@@ -125,7 +128,7 @@ class Club
         return $this;
     }
 
-    public function removePlayer(Players $player): self
+    public function removePlayer(Player $player): self
     {
         if ($this->players->removeElement($player)) {
             // set the owning side to null (unless already changed)
@@ -136,8 +139,61 @@ class Club
 
         return $this;
     }
-    public function countPlayers():int{
+
+    public function countPlayers(): int
+    {
         return $this->players->count();
 
     }
+
+    /**
+     * @return Collection<int, Trainer>
+     */
+    public function getTrainers(): Collection
+    {
+        return $this->trainers;
+    }
+
+    public function addTrainer(Trainer $trainer): self
+    {
+        if (!$this->trainers->contains($trainer)) {
+            $this->trainers->add($trainer);
+            $trainer->setClub($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrainer(Trainer $trainer): self
+    {
+        if ($this->trainers->removeElement($trainer)) {
+            // set the owning side to null (unless already changed)
+            if ($trainer->getClub() === $this) {
+                $trainer->setClub(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTotalSalaries(): int
+    {
+        $totalSalary = 0;
+
+        foreach ($this->players as $player) {
+            $totalSalary += $player->getSalary();
+        }
+
+        foreach ($this->trainers as $trainer) {
+            $totalSalary += $trainer->getSalary();
+        }
+
+        return $totalSalary;
+    }
+
+    public function getAvailableBudget(): int
+    {
+        return $this->budget - $this->getTotalSalaries();
+    }
+
 }

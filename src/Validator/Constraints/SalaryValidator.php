@@ -9,12 +9,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class PlayerSalaryValidator extends ConstraintValidator
+class SalaryValidator extends ConstraintValidator
 {
 
     public function validate($value, Constraint $constraint)
     {
-        /* @var App\Validator\PlayerSalary $constraint */
+        /* @var App\Validator\Salary $constraint */
         /** @var FormInterface $form */
 
         $form = $this->context->getObject();

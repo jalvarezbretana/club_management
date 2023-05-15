@@ -3,39 +3,58 @@
 namespace App\Controller;
 
 use App\Entity\Club;
-use App\Entity\Players;
+use App\Entity\Player;
+use App\Entity\Trainer;
 use App\Form\ClubType;
 use App\Form\PlayerType;
+use App\Form\TrainerType;
 use App\Helper\FormErrorsToArray;
 use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TrainerRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+//use PhpParser\Comment;
 
 
 class ClubController extends AbstractController
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager, private readonly ClubRepository $clubRepository, private readonly ValidatorInterface $validator)
+    public function __construct(private readonly ClubRepository $clubRepository)
     {
 
     }
 
-
-    #[Route('/clubs', name: 'club_index', methods: 'GET')]
+    #[Route('/club', name: 'club_index', methods: 'GET')]
     public function index(): Response
     {
-        $club = $this->clubRepository->findAll();
+        $clubs = $this->clubRepository->findAll();
+        $data = [];
+        foreach ($clubs as $club) {
+            $id = $club->getId();
+            $name = $club->getName();
+            $budget = $club->getBudget();
+            $availableBudget = $club->getAvailableBudget();
 
-        return $this->json($club, 200, [], ['groups' => 'club']);
+            $data[] = [
+                'id' => $id,
+                'name' => $name,
+                'total_budget' => $budget,
+                'remaining_budget' => $availableBudget,
+            ];
+        }
+
+        return $this->json(["CLUBS" => $data]);
+
     }
 
-    #[Route('/clubs', name: 'club_create', methods: 'POST')]
-    public function create(Request $request, ClubRepository $clubRepository): Response
+    #[Route('/club', name: 'club_create', methods: 'POST')]
+    public function create_club(Request $request, ClubRepository $clubRepository): Response
     {
         $club = new Club();
         $form = $this->createForm(ClubType::class, $club);
@@ -48,15 +67,15 @@ class ClubController extends AbstractController
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route('/clubs/{id}', name: 'club_show', methods: 'GET')]
-    public function show(Club $club): Response
+    #[Route('/club/{id}', name: 'club_show', methods: 'GET')]
+    public function show_club(Club $club): Response
     {
-        return $this->json($club, 201, [], ['groups' => 'club']);
+        return $this->json(["remaining_budget" => $club->getAvailableBudget()]);
 
     }
 
-    #[Route('/clubs/{id}', name: 'club_update', methods: 'PUT')]
-    public function update(Request $request, Club $club, ClubRepository $clubRepository): Response
+    #[Route('/club/{id}', name: 'club_update', methods: 'PUT')]
+    public function update_club(Request $request, Club $club, ClubRepository $clubRepository): Response
     {
         $form = $this->createForm(ClubType::class, $club, ["method" => "PUT"]);
         $form->handleRequest($request);
@@ -69,25 +88,24 @@ class ClubController extends AbstractController
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
 
-    #[Route('/clubs/{id}', name: 'club_delete', methods: 'DELETE')]
-    public function delete(Club $club, ClubRepository $clubRepository): Response
+    #[Route('/club/{id}', name: 'club_delete', methods: 'DELETE')]
+    public function delete_club(Club $club, ClubRepository $clubRepository): Response
     {
         $clubRepository->remove($club, true);
-
-        return $this->json(null, 204);
+        return $this->json(["Club deleted successfully"]);
     }
 
-    #[Route('/clubs/{id}/players', name: 'club_create_player', methods: 'POST')]
+    #[Route('/club/{id}/player', name: 'club_create_player', methods: 'POST')]
     public function club_create_player(Request $request, Club $club, PlayerRepository $playerRepository): Response
     {
-        $players = new Players();
-        $players->setClub($club);
-        $form = $this->createForm(PlayerType::class, $players, ["method" => "POST", "club" => $club]);
+        $player = new Player();
+        $player->setClub($club);
+        $form = $this->createForm(PlayerType::class, $player, ["method" => "POST", "club" => $club]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $players = $form->getData();
-            $playerRepository->save($players, true);
+            $player = $form->getData();
+            $playerRepository->save($player, true);
             return new JsonResponse(['message' => 'Player created in club successfully'], Response::HTTP_CREATED);
         }
 
@@ -95,25 +113,31 @@ class ClubController extends AbstractController
 
     }
 
-    #[Route('/clubs/budget/{id}', name: 'club_budget', methods: 'GET')]
-    public function club_budget(Club $club): Response
+    #[Route('/club/{id}/trainer', name: 'club_create_trainer', methods: 'POST')]
+    public function club_create_trainer(Request $request, Club $club, TrainerRepository $trainerRepository): Response
     {
-        $players = $club->getPlayers();
-        $totalSalary = 0;
+        $trainer = new Trainer();
+        $trainer->setClub($club);
+        $form = $this->createForm(TrainerType::class, $trainer, ["method" => "POST", "club" => $club]);
+        $form->handleRequest($request);
 
-        foreach ($players as $player) {
-            $totalSalary += $player->getSalary();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trainer = $form->getData();
+            $trainerRepository->save($trainer, true);
+            return new JsonResponse(['message' => 'Trainer created in club successfully'], Response::HTTP_CREATED);
         }
 
-        $remainingBudget = $club->getBudget() - $totalSalary;
+        return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
 
-        return new JsonResponse([
-            'club_id' => $club->getId(),
-            'total_players' => $club->countPlayers(),
-            'total_salary' => $totalSalary,
-            'remaining_budget' => $remainingBudget,
-        ]);
     }
 
-
+//    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: 'DELETE')]
+//    #[Entity('player', expr: 'repository.find(player_id)')]
+//    #[ParamConverter('player', options: ['mapping' => ['player_id' => 'id']])]
+//    public function club_delete_player(Club $club, Player $player): Response
+//    {
+//        $club->removePlayer($player);
+//        return $this->json([null, 204]);
+//
+//    }
 }

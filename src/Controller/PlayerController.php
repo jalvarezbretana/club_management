@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Players;
+use App\Entity\Player;
 use App\Form\PlayerType;
 use App\Helper\FormErrorsToArray;
 use App\Repository\PlayerRepository;
@@ -22,7 +22,7 @@ class PlayerController extends AbstractController
 
     }
 
-    #[Route('/players', name: 'player_index', methods: 'GET')]
+    #[Route('/player', name: 'player_index', methods: 'GET')]
     public function index(): Response
     {
         $players = $this->playerRepository->findAll();
@@ -32,10 +32,10 @@ class PlayerController extends AbstractController
     }
 
 
-    #[Route('/players', name: 'player_create', methods: 'POST')]
+    #[Route('/player', name: 'player_create', methods: 'POST')]
     public function create(Request $request, PlayerRepository $playerRepository): Response
     {
-        $players = new Players();
+        $players = new Player();
         $form = $this->createForm(PlayerType::class, $players);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -46,16 +46,16 @@ class PlayerController extends AbstractController
     }
 
 
-    #[Route('/players/{id}', name: 'player_show', methods: 'GET')]
-    public function show(Players $players): Response
+    #[Route('/player{id}', name: 'player_show', methods: 'GET')]
+    public function show(Player $players): Response
     {
         return $this->json($players, 201, [], ['groups' => 'club']);
 
     }
 
 
-    #[Route('/players/{id}', name: 'player_update', methods: 'PUT')]
-    public function update(Request $request, Players $players, PlayerRepository $playerRepository): Response
+    #[Route('/player/{id}', name: 'player_update', methods: 'PUT')]
+    public function update(Request $request, Player $players, PlayerRepository $playerRepository): Response
     {
         $form = $this->createForm(PlayerType::class, $players, ["method" => "PUT"]);
         $form->handleRequest($request);
@@ -68,12 +68,12 @@ class PlayerController extends AbstractController
     }
 
 
-    #[Route('/players/{id}', name: 'player_delete', methods: 'DELETE')]
-    public function delete(Players $players, PlayerRepository $playerRepository): Response
+    #[Route('/player/{id}', name: 'player_delete', methods: 'DELETE')]
+    public function delete(Player $players, PlayerRepository $playerRepository): Response
     {
         $playerRepository->remove($players, true);
+        return $this->json(["Player deleted successfully"]);
 
-        return $this->json(null, 204);
     }
 
 }

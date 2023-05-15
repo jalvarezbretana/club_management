@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-class PlayerSalary extends Constraint
+class Salary extends Constraint
 {
     /*
      * Any public properties become valid options for the annotation.
@@ -42,6 +42,6 @@ class PlayerSalary extends Constraint
 
     public function validatedBy()
     {
-        return PlayerSalaryValidator::class;
+        return SalaryValidator::class;
     }
 }

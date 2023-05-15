@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\PlayerRepository;
+use App\Repository\TrainerRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
-#[ORM\Entity(repositoryClass: PlayerRepository::class)]
-class Players
+#[ORM\Entity(repositoryClass: TrainerRepository::class)]
+class Trainer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,9 +33,8 @@ class Players
     #[ORM\Column]
     private ?int $phone = null;
 
-    #[ORM\ManyToOne(inversedBy: 'players')]
+    #[ORM\ManyToOne(inversedBy: 'trainers')]
     private ?Club $club = null;
-
 
     public function getId(): ?int
     {
@@ -113,7 +112,6 @@ class Players
 
         return $this;
     }
-
     public static function loadValidatorMetadata(ClassMetadata $metadata)
     {
         $metadata->addConstraint(new UniqueEntity([

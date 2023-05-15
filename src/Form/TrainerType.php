@@ -2,8 +2,9 @@
 
 namespace App\Form;
 
-use App\Entity\Trainers;
+use App\Entity\Trainer;
 use App\Validator\Constraints\DniFormat;
+use App\Validator\Constraints\Salary;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,7 +50,8 @@ class TrainerType extends AbstractType
                         'min' => 2000,
                         'max' => 3000,
                         'notInRangeMessage' => 'The salary should be between {{ min }} and {{ max }}'
-                    ])
+                    ]),
+                    new Salary($options["club"]),
                 ],
             ])
             ->add('phone', null, [
@@ -71,7 +73,8 @@ class TrainerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Trainers::class,
+            'data_class' => Trainer::class,
+            'club' => null,
         ]);
     }
 
