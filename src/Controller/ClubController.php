@@ -25,7 +25,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClubController extends AbstractController
 {
-    public function __construct(private readonly ClubRepository $clubRepository)
+    public function __construct(private readonly ClubRepository $clubRepository, private readonly PlayerRepository $playerRepository)
     {
 
     }
@@ -70,7 +70,7 @@ class ClubController extends AbstractController
     #[Route('/club/{id}', name: 'club_show', methods: 'GET')]
     public function show_club(Club $club): Response
     {
-        return $this->json(["remaining_budget" => $club->getAvailableBudget()]);
+        return $this->json(["name" => $club->getName(), "total_budget" => $club->getBudget(), "remaining_budget" => $club->getAvailableBudget()]);
 
     }
 
@@ -131,13 +131,13 @@ class ClubController extends AbstractController
 
     }
 
-//    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: 'DELETE')]
-//    #[Entity('player', expr: 'repository.find(player_id)')]
-//    #[ParamConverter('player', options: ['mapping' => ['player_id' => 'id']])]
-//    public function club_delete_player(Club $club, Player $player): Response
-//    {
-//        $club->removePlayer($player);
-//        return $this->json([null, 204]);
-//
-//    }
+    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: 'DELETE')]
+    #[ParamConverter('player',options: ['mapping' => ['player_id' => 'id'],'exclude'=>['id']])]
+    #[ParamConverter('club', options:  ['mapping' => ['id' => 'id'],'exclude'=>['player_id']])]
+    public function club_delete_player(Club $club,Player $player): Response
+    {
+        $this->playerRepository->remove($player, true);
+        return $this->json(["Player deleted successfully"]);
+
+    }
 }

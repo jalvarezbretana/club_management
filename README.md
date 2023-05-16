@@ -7,7 +7,7 @@ Then I gave it the respective permissions with the command: ```sudo chmod 775 cl
 then ```
 sudo chown hades.www-data club_management/ -Rf``` to give ownership to **"hades"** (my user).
 
-At this point, I have to connect it with **nginx**, moving to ```cd /etc/nginx/sites-available``` and then create the
+At this point, I had to connect it with **nginx**, moving to ```cd /etc/nginx/sites-available``` and then create the
 document
 with ```sudo
 vim club_management```. Inside this doc I pasted the next code bloc for this purpose:
@@ -104,7 +104,7 @@ function **create** to a form with a **validator**.
 Later, I did all the functions of the **CRUD** with a better code and a form in create (**'POST'**) and update
 (**'PUT'**), next I started to coding the **'constraints'** on **ClubType** to make some restrictions in the inserts.
 When I finished this form, I started the update of the other **Controllers** and **Forms**. And, I started the code so
-that the **'value'** of a **'field'** is not repeated, in each **Entity**, with this function:
+that the **'value'** of a **'field'** is not repeated, in each **Entity Class**, with this function:
 
 ``` 
 public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -115,12 +115,22 @@ $metadata->addConstraint(new UniqueEntity([
 ]))
 ```
 
-Then, I started the coding of a new **Validator/Constraints** using ```php bin/console make:validator``` and named 
+Then, I started the coding of a new **Validator/Constraints** using ```php bin/console make:validator``` and named
 **DniFormat** to make sure that the DNI inserted got
 the 8 numbers and the 1 letter. Putting it in ```->add('dni', null, [
 'constraints' => [``` of **PlayerType 'dni'** and **TrainerType 'dni'**.
 
-After all, I commenced the creation of the Validator of ```PlayerSalary``` to validate if the Players' salary was higher than the Club's budget
+After all, I commenced the creation of the Validator of ```PlayerSalary``` to validate if the Players' salary was higher
+than the Club's budget. After that was working, I updated it to be ```SalaryValidator``` to use it with the trainers
+too, and added it to **PlayerType**
+and **TrainerType** forms as constraint of the **'salary'**.
+
+Next step I made, was to create the **relation** between Club - Player, and Club - Trainer,
+each one of **OneToMany**, with ```php bin/console make:entity```. Then, I started to make the functions of
+**club_create_player**, **club_delete_player** and
+updated the **index()**
+in **ClubController**. Also, I created a function that gets the **totalSalary** of the players and trainers and other
+one for the **availableBudget**, and used them on **index()** and **show_club**.
 
 Now, I installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
 
