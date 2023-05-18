@@ -12,20 +12,16 @@ use App\Helper\FormErrorsToArray;
 use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TrainerRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-//use PhpParser\Comment;
-
 
 class ClubController extends AbstractController
 {
-    public function __construct(private readonly ClubRepository $clubRepository, private readonly PlayerRepository $playerRepository)
+    public function __construct(private readonly ClubRepository $clubRepository, private readonly PlayerRepository $playerRepository, private readonly TrainerRepository $trainerRepository)
     {
 
     }
@@ -131,13 +127,22 @@ class ClubController extends AbstractController
 
     }
 
-    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: 'DELETE')]
-    #[ParamConverter('player',options: ['mapping' => ['player_id' => 'id'],'exclude'=>['id']])]
-    #[ParamConverter('club', options:  ['mapping' => ['id' => 'id'],'exclude'=>['player_id']])]
-    public function club_delete_player(Club $club,Player $player): Response
-    {
-        $this->playerRepository->remove($player, true);
-        return $this->json(["Player deleted successfully"]);
-
-    }
+//    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: ['DELETE'])]
+//    #[ParamConverter('player', options:[ 'mapping' =>["player_id"=> "id"], ['exclude'=>["id"]]])]
+//    #[ParamConverter('club', options: ['mapping'=>["id"=>"id"], ['exclude'=>["player_id"]]])]
+//    public function club_delete_player(Club $club, Player $player): Response
+//    {
+//        $this->playerRepository->remove($player, true);
+//        return $this->json(['message'=>'Player deleted successfully']);
+//
+//    }
+//    #[Route('/club/{id}/trainer/{trainer_id}', name: 'club_delete_trainer', methods: 'DELETE')]
+//    #[ParamConverter('club', options: ['mapping' => ['id' => 'id'], 'exclude' => ['trainer_id']])]
+//    #[ParamConverter('trainer', options: ['mapping' => ['trainer_id' => 'id'], 'exclude' => ['id']])]
+//    public function club_delete_trainer(Club $club, Trainer $trainer): Response
+//    {
+//        $this->trainerRepository->remove($trainer, true);
+//        return $this->json(['message'=>'Trainer deleted successfully']);
+//
+//    }
 }

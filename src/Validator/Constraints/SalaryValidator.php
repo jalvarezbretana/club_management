@@ -11,7 +11,6 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class SalaryValidator extends ConstraintValidator
 {
-
     public function validate($value, Constraint $constraint)
     {
         /* @var App\Validator\Salary $constraint */
@@ -22,11 +21,11 @@ class SalaryValidator extends ConstraintValidator
         /** @var Club $club */
 
         $club = $constraint->getClub();
-        $playerSalary = $form->getData();
+        $salary = $form->getData();
 
-        if (($club->getBudget() - $playerSalary) < 0) {
+        if (/*$club &&*/ (($club->getBudget() - $salary) < 0)) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('{{ salary }}', $playerSalary)
+                ->setParameter('{{ salary }}', $salary)
                 ->setParameter('{{ budget }}', $club->getBudget())
                 ->addViolation();
         }

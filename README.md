@@ -132,7 +132,13 @@ updated the **index()**
 in **ClubController**. Also, I created a function that gets the **totalSalary** of the players and trainers and other
 one for the **availableBudget**, and used them on **index()** and **show_club**.
 
-Now, I installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
+Later, I updated the **SalaryValidator** because I found an error that if you wanted to create a **new Player/Trainer**
+with the function **create** with the method **'POST'** in **PlayerController/TrainerController**. It always needed the
+**club** to validate it's **budget**, but it was unnecessary, because I needed to create a new player without a team.
+
+
+
+Now, I had installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
 
 
 

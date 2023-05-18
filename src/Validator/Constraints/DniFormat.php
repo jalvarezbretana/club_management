@@ -18,7 +18,7 @@ class DniFormat extends Constraint
     */
     public $message = 'The DNI {{ value }} is not valid. It should have 8 numbers and 1 letter.';
 
-    public function validatedBy()
+    public function validatedBy(): string
     {
         return \get_class($this) . 'Validator';
     }
