@@ -136,9 +136,9 @@ Later, I updated the **SalaryValidator** because I found an error that if you wa
 with the function **create** with the method **'POST'** in **PlayerController/TrainerController**. It always needed the
 **club** to validate it's **budget**, but it was unnecessary, because I needed to create a new player without a team.
 
-
-
-Now, I had installed the symfony/test-pack with ```composer require --dev symfony/test-pack```
+Now, I had installed the symfony/test-pack with ```composer require --dev symfony/test-pack``` this should automatically
+create **phpunit.xml.dist** and **tests/bootstrap.php**. But, If these files are missing, you can try
+running ```composer recipes:install phpunit/phpunit --force -v```.
 
 
 

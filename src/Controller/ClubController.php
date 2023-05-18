@@ -31,17 +31,45 @@ class ClubController extends AbstractController
     {
         $clubs = $this->clubRepository->findAll();
         $data = [];
+
         foreach ($clubs as $club) {
             $id = $club->getId();
             $name = $club->getName();
             $budget = $club->getBudget();
+            $email = $club->getEmail();
+            $phone = $club->getPhone();
             $availableBudget = $club->getAvailableBudget();
+            $players = $club->getPlayers();
+            $playerData = [];
+            $trainers = $club->getTrainers();
+            $trainerData = [];
+
+            foreach ($players as $player) {
+                $playerId = $player->getId();
+                $playerName = $player->getName();
+                $playerData[] = [
+                    'id' => $playerId,
+                    'name' => $playerName,
+                ];
+            }
+            foreach ($trainers as $trainer) {
+                $trainerId = $trainer->getId();
+                $trainerName = $trainer->getName();
+                $trainerData[] = [
+                    'id' => $trainerId,
+                    'name' => $trainerName,
+                ];
+            }
 
             $data[] = [
                 'id' => $id,
                 'name' => $name,
+                'email' => $email,
                 'total_budget' => $budget,
                 'remaining_budget' => $availableBudget,
+                'phone' => $phone,
+                'players' => $playerData,
+                'trainers' => $trainerData,
             ];
         }
 
@@ -83,6 +111,21 @@ class ClubController extends AbstractController
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
+
+    #[Route('/club/{id}', name: 'club_update_budget', methods: 'PATCH')]
+    public function update_budget(Request $request, Club $club, ClubRepository $clubRepository): Response
+    {
+        $form = $this->createForm(ClubType::class, $club, ["method" => "PATCH"]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $club = $form->getData();
+            $clubRepository->save($club, true);
+            return new JsonResponse(['message' => 'Budget edited successfully'], Response::HTTP_CREATED);
+        }
+        return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
+    }
+
 
     #[Route('/club/{id}', name: 'club_delete', methods: 'DELETE')]
     public function delete_club(Club $club, ClubRepository $clubRepository): Response

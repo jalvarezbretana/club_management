@@ -1,18 +1,20 @@
 <?php
 
 namespace App\Listener;
+
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 
-
 #[AsEventListener(event: RequestEvent::class, method: 'onKernelRequest')]
-class RequestJsonListener {
+class RequestJsonListener
+{
 
 
-    public function onKernelRequest(RequestEvent $event) {
+    public function onKernelRequest(RequestEvent $event)
+    {
         $request = $event->getRequest();
         $content = $request->getContent();
         if (empty($content)) {
@@ -28,11 +30,13 @@ class RequestJsonListener {
     }
 
 
-    private function isJsonRequest(Request $request) {
+    private function isJsonRequest(Request $request)
+    {
         return str_contains($request->getContentTypeFormat(), 'json');
     }
 
-    private function transformJsonBody(Request $request) {
+    private function transformJsonBody(Request $request)
+    {
         $data = json_decode($request->getContent(), true);
         if (json_last_error() !== JSON_ERROR_NONE) {
             return false;
