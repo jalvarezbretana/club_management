@@ -36,8 +36,8 @@ class PlayerController extends AbstractController
             $salary = $player->getSalary();
             $phone = $player->getPhone();
             $club = $player->getClub();
-            $clubId = $club ? $club->getId() : null;
-            $clubName = $club ? $club->getName() : null;
+            $clubId = $club?->getId();
+            $clubName = $club?->getName();
 
             $data[] = [
                 'id' => $id,
@@ -59,14 +59,14 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player', name: 'player_create', methods: 'POST')]
-    public function create(Request $request, PlayerRepository $playerRepository): Response
+    public function create(Request $request): Response
     {
         $player = new Player();
         $form = $this->createForm(PlayerType::class, $player);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $playerRepository->save($player, true);
+            $this->playerRepository->save($player, true);
             return new JsonResponse(['message' => 'Player created successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
@@ -77,8 +77,8 @@ class PlayerController extends AbstractController
     public function show(Player $player): Response
     {
         $club = $player->getClub();
-        $clubId = $club ? $club->getId() : null;
-        $clubName = $club ? $club->getName() : null;
+        $clubId = $club?->getId();
+        $clubName = $club?->getName();
 
         return $this->json([
             "name" => $player->getName(),
@@ -92,14 +92,14 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player/{id}', name: 'player_update', methods: 'PUT')]
-    public function update(Request $request, Player $player, PlayerRepository $playerRepository): Response
+    public function update(Request $request, Player $player): Response
     {
         $form = $this->createForm(PlayerType::class, $player, ["method" => "PUT"]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $player = $form->getData();
-            $playerRepository->save($player, true);
+            $this->playerRepository->save($player, true);
             return new JsonResponse(['message' => 'Player edited successfully'], Response::HTTP_CREATED);
         }
 
@@ -108,9 +108,9 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player/{id}', name: 'player_delete', methods: 'DELETE')]
-    public function delete(Player $player, PlayerRepository $playerRepository): Response
+    public function delete(Player $player): Response
     {
-        $playerRepository->remove($player, true);
+        $this->playerRepository->remove($player, true);
         return $this->json(["Player deleted successfully"]);
     }
 

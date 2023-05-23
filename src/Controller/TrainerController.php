@@ -37,8 +37,8 @@ class TrainerController extends AbstractController
             $salary = $trainer->getSalary();
             $phone = $trainer->getPhone();
             $club = $trainer->getClub();
-            $clubId = $club ? $club->getId() : null;
-            $clubName = $club ? $club->getName() : null;
+            $clubId = $club?->getId();
+            $clubName = $club?->getName();
 
             $data[] = [
                 'id' => $id,
@@ -59,13 +59,13 @@ class TrainerController extends AbstractController
 
 
     #[Route('/trainer', name: 'trainer_create', methods: 'POST')]
-    public function create(Request $request, TrainerRepository $trainerRepository): Response
+    public function create(Request $request): Response
     {
         $trainer = new Trainer();
         $form = $this->createForm(TrainerType::class, $trainer);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $trainerRepository->save($trainer, true);
+            $this->trainerRepository->save($trainer, true);
             return new JsonResponse(['message' => 'Trainer created successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
@@ -76,8 +76,8 @@ class TrainerController extends AbstractController
     public function show(Trainer $trainer): Response
     {
         $club = $trainer->getClub();
-        $clubId = $club ? $club->getId() : null;
-        $clubName = $club ? $club->getName() : null;
+        $clubId = $club?->getId();
+        $clubName = $club?->getName();
 
         return $this->json([
             "name" => $trainer->getName(),
@@ -90,13 +90,13 @@ class TrainerController extends AbstractController
     }
 
     #[Route('/trainer/{id}', name: 'trainer_update', methods: 'PUT')]
-    public function update(Request $request, Trainer $trainer, TrainerRepository $trainerRepository): Response
+    public function update(Request $request, Trainer $trainer): Response
     {
         $form = $this->createForm(TrainerType::class, $trainer, ["method" => "PUT"]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
-            $trainerRepository->save($trainer, true);
+            $this->trainerRepository->save($trainer, true);
             return new JsonResponse(['message' => 'Trainer edited successfully'], Response::HTTP_CREATED);
         }
 
@@ -106,9 +106,9 @@ class TrainerController extends AbstractController
 
 
     #[Route('/trainer/{id}', name: 'trainers_delete', methods: 'DELETE')]
-    public function delete(Trainer $trainer, TrainerRepository $trainerRepository): Response
+    public function delete(Trainer $trainer): Response
     {
-        $trainerRepository->remove($trainer, true);
+        $this->trainerRepository->remove($trainer, true);
         return $this->json(["Trainer deleted successfully"]);
     }
 
