@@ -23,7 +23,7 @@ class SalaryValidator extends ConstraintValidator
         $club = $constraint->getClub();
         $salary = $form->getData();
 
-        if (/*$club &&*/ (($club->getBudget() - $salary) < 0)) {
+        if ($club && (($club->getBudget() - $salary) < 0)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ salary }}', $salary)
                 ->setParameter('{{ budget }}', $club->getBudget())

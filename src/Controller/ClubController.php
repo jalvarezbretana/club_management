@@ -13,6 +13,8 @@ use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TrainerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,7 +137,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}/player', name: 'club_create_player', methods: 'POST')]
-    public function club_create_player(Request $request, Club $club): Response
+    public function club_create_player(Request $request, Club $club, MailerInterface $mailer): Response
     {
         $player = new Player();
         $player->setClub($club);
@@ -145,11 +147,16 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $player = $form->getData();
             $this->playerRepository->save($player, true);
-            return new JsonResponse(['message' => 'Player created in club successfully'], Response::HTTP_CREATED);
+            $pEmail = $player->getEmail();
+            $email = (new Email())
+                ->from('hello@example.com')
+                ->to($pEmail)
+                ->subject('Player Created')
+                ->text('Player created in club successfully');
+            $mailer->send($email);
+            return new JsonResponse(['message' => 'Player created in club successfully', 'email' => $email], Response::HTTP_CREATED);
         }
-
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
-
     }
 
     #[Route('/club/{id}/trainer', name: 'club_create_trainer', methods: 'POST')]
@@ -182,7 +189,7 @@ class ClubController extends AbstractController
         if (!$club) {
             return new JsonResponse(['error' => 'Club not found.'], 404);
         }
-
+        //qb=QueryBuilder
         $qb = $this->playerRepository->createQueryBuilder('p')
             ->where('p.club = :club')
             ->setParameter('club', $club);
@@ -205,16 +212,18 @@ class ClubController extends AbstractController
             'club' => $club->getName(),
             'players' => [],
             'page' => $page,
-            'per_page' => $perPage,
+//            'per_page' => $perPage,
             'total_players' => $totalPlayers,
         ];
+
         foreach ($players as $player) {
             $data['players'][] = [
-                'id' => $player->getId(),
+//                'id' => $player->getId(),
                 'name' => $player->getName(),
             ];
 
         }
+
         return $this->json([$data]);
 
     }
