@@ -23,7 +23,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ClubController extends AbstractController
 {
-    public function __construct(private readonly ClubRepository $clubRepository, private readonly PlayerRepository $playerRepository, private readonly TrainerRepository $trainerRepository)
+    public function __construct(private readonly ClubRepository    $clubRepository, private readonly PlayerRepository $playerRepository,
+                                private readonly TrainerRepository $trainerRepository, private readonly MailerInterface $mailer)
     {
 
     }
@@ -96,8 +97,10 @@ class ClubController extends AbstractController
     #[Route('/club/{id}', name: 'club_show', methods: 'GET')]
     public function show_club(Club $club): Response
     {
-        return $this->json(["name" => $club->getName(), "total_budget" => $club->getBudget(), "remaining_budget" => $club->getAvailableBudget()]);
-
+        return $this->json([
+            "name" => $club->getName(),
+            "total_budget" => $club->getBudget(),
+            "remaining_budget" => $club->getAvailableBudget()]);
     }
 
     #[Route('/club/{id}', name: 'club_update', methods: 'PUT')]
@@ -137,7 +140,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}/player', name: 'club_create_player', methods: 'POST')]
-    public function club_create_player(Request $request, Club $club, MailerInterface $mailer): Response
+    public function club_create_player(Request $request, Club $club): Response
     {
         $player = new Player();
         $player->setClub($club);
@@ -151,14 +154,29 @@ class ClubController extends AbstractController
             $email = (new Email())
                 ->from('hello@example.com')
                 ->to($pEmail)
-                ->subject('Player Created')
-                ->text('Player created in club successfully');
-            $mailer->send($email);
-            return new JsonResponse(['message' => 'Player created in club successfully', 'email' => $email], Response::HTTP_CREATED);
+                ->subject('Player CREATED')
+                ->text('You have been registered in the club.');
+            $this->mailer->send($email);
+            return new JsonResponse(['message' => 'Player created in club successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
-
+//    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: ['DELETE'])]
+//    #[ParamConverter('player', options:[ 'mapping' =>["player_id"=> "id"], ['exclude'=>["id"]]])]
+//    #[ParamConverter('club', options: ['mapping'=>["id"=>"id"], ['exclude'=>["player_id"]]])]
+//    public function club_delete_player(Club $club, Player $player): Response
+//    {
+//        $this->playerRepository->remove($player, true);
+//        $pEmail = $player->getEmail();
+//        $email = (new Email())
+//            ->from('hello@example.com')
+//            ->to($pEmail)
+//            ->subject('Player DELETED')
+//            ->text('You have been dropped from the club.');
+//        $this->mailer->send($email);
+//        return $this->json(['message'=>'Player deleted successfully']);
+//
+//    }
     #[Route('/club/{id}/trainer', name: 'club_create_trainer', methods: 'POST')]
     public function club_create_trainer(Request $request, Club $club): Response
     {
@@ -170,14 +188,38 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
             $this->trainerRepository->save($trainer, true);
+            $tEmail = $trainer->getEmail();
+            $email = (new Email())
+                ->from('hello@example.com')
+                ->to($tEmail)
+                ->subject('Trainer CREATED')
+                ->text('You have been registered in the club.');
+            $this->mailer->send($email);
             return new JsonResponse(['message' => 'Trainer created in club successfully'], Response::HTTP_CREATED);
         }
 
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
 
     }
+//
+//    #[Route('/club/{id}/trainer/{trainer_id}', name: 'club_delete_trainer', methods: 'DELETE')]
+//    #[ParamConverter('club', options: ['mapping' => ['id' => 'id'], 'exclude' => ['trainer_id']])]
+//    #[ParamConverter('trainer', options: ['mapping' => ['trainer_id' => 'id'], 'exclude' => ['id']])]
+//    public function club_delete_trainer(Club $club, Trainer $trainer): Response
+//    {
+//        $this->trainerRepository->remove($trainer, true);
+//        $tEmail = $trainer->getEmail();
+//        $email = (new Email())
+//            ->from('hello@example.com')
+//            ->to($tEmail)
+//            ->subject('Trainer DELETED')
+//            ->text('You have been dropped from the club.');
+//        $this->mailer->send($email);
+//        return $this->json(['message' => 'Trainer deleted successfully']);
+//
+//    }
 
-    #[Route('/club/{id}/players', name: 'club_list_players', methods: 'GET')]
+    #[Route('/club/{id}/player', name: 'club_list_player', methods: 'GET')]
     public function club_list_players(Request $request, Club $club): Response
     {
         $club = $this->clubRepository->find($club->getId());
@@ -215,7 +257,6 @@ class ClubController extends AbstractController
 //            'per_page' => $perPage,
             'total_players' => $totalPlayers,
         ];
-
         foreach ($players as $player) {
             $data['players'][] = [
 //                'id' => $player->getId(),
@@ -223,26 +264,6 @@ class ClubController extends AbstractController
             ];
 
         }
-
         return $this->json([$data]);
-
     }
-//    #[Route('/club/{id}/player/{player_id}', name: 'club_delete_player', methods: ['DELETE'])]
-//    #[ParamConverter('player', options:[ 'mapping' =>["player_id"=> "id"], ['exclude'=>["id"]]])]
-//    #[ParamConverter('club', options: ['mapping'=>["id"=>"id"], ['exclude'=>["player_id"]]])]
-//    public function club_delete_player(Club $club, Player $player): Response
-//    {
-//        $this->playerRepository->remove($player, true);
-//        return $this->json(['message'=>'Player deleted successfully']);
-//
-//    }
-//    #[Route('/club/{id}/trainer/{trainer_id}', name: 'club_delete_trainer', methods: 'DELETE')]
-//    #[ParamConverter('club', options: ['mapping' => ['id' => 'id'], 'exclude' => ['trainer_id']])]
-//    #[ParamConverter('trainer', options: ['mapping' => ['trainer_id' => 'id'], 'exclude' => ['id']])]
-//    public function club_delete_trainer(Club $club, Trainer $trainer): Response
-//    {
-//        $this->trainerRepository->remove($trainer, true);
-//        return $this->json(['message'=>'Trainer deleted successfully']);
-//
-//    }
 }
