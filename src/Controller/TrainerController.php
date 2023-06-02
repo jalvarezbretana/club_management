@@ -97,7 +97,7 @@ class TrainerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $trainer = $form->getData();
             $this->trainerRepository->save($trainer, true);
-            return new JsonResponse(['message' => 'Trainer edited successfully'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Trainer updated successfully'], Response::HTTP_CREATED);
         }
 
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);

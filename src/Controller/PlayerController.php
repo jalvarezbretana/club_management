@@ -100,7 +100,7 @@ class PlayerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $player = $form->getData();
             $this->playerRepository->save($player, true);
-            return new JsonResponse(['message' => 'Player edited successfully'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Player updated successfully'], Response::HTTP_CREATED);
         }
 
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);

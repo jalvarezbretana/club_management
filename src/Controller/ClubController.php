@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Club;
 use App\Entity\Player;
 use App\Entity\Trainer;
+use App\Form\ClubBudgetType;
 use App\Form\ClubType;
 use App\Form\PlayerType;
 use App\Form\TrainerType;
@@ -12,7 +13,6 @@ use App\Helper\FormErrorsToArray;
 use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TrainerRepository;
-//use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -115,7 +115,7 @@ class ClubController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $club = $form->getData();
             $this->clubRepository->save($club, true);
-            return new JsonResponse(['message' => 'Club edited successfully'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Club updated successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }
@@ -123,13 +123,13 @@ class ClubController extends AbstractController
     #[Route('/club/{id}', name: 'club_update_budget', methods: 'PATCH')]
     public function update_budget(Request $request, Club $club): Response
     {
-        $form = $this->createForm(ClubType::class, $club, ["method" => "PATCH"]);
+        $form = $this->createForm(ClubBudgetType::class, $club, ["method" => "PATCH"]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $club = $form->getData();
             $this->clubRepository->save($club, true);
-            return new JsonResponse(['message' => 'Budget edited successfully'], Response::HTTP_CREATED);
+            return new JsonResponse(['message' => 'Club budget updated successfully'], Response::HTTP_CREATED);
         }
         return new JsonResponse(['errors' => FormErrorsToArray::staticParseErrorsToArray($form)], Response::HTTP_BAD_REQUEST);
     }

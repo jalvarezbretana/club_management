@@ -260,7 +260,7 @@ class PostControllerTest extends WebTestCase
     public function testResponseExceptionUpdateClub(): void
     {
         $client = static::createClient();
-        $client->request('PUT', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
+        $client->request('PATCH', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
         $response = $client->getResponse();
         $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
         $this->assertJson($response->getContent());
@@ -269,6 +269,53 @@ class PostControllerTest extends WebTestCase
         $responseContent = $client->getResponse()->getContent();
         echo $this->createRandClub() . $responseContent . PHP_EOL;
     }
+
+    /*----------------------------------------PATCH CLUB BUDGET-------------------------------------*/
+    public function testResponseSuccessfulPatchClubBudget(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
+        $this->assertResponseIsSuccessful();
+        $responseContent = $client->getResponse()->getContent();
+        echo $this->createRandClub() . $responseContent . PHP_EOL;
+    }
+
+    public function testResponseIsJsonPatchClubBudget(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
+        $this->assertResponseFormatSame("json");
+        $this->assertResponseIsSuccessful();
+        $responseContent = $client->getResponse()->getContent();
+        echo $this->createRandClub() . $responseContent . PHP_EOL;
+    }
+
+    public function testResponseHasPatchClubBudget(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
+        $response = $client->getResponse();
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
+        $this->assertJson($response->getContent());
+        json_decode($response->getContent(), true);
+        $this->assertResponseIsSuccessful();
+        $responseContent = $client->getResponse()->getContent();
+        echo $this->createRandClub() . $responseContent . PHP_EOL;
+    }
+
+    public function testResponseExceptionPatchClubBudget(): void
+    {
+        $client = static::createClient();
+        $client->request('PATCH', '//league.localhost/club/' . $this->CreateRandClub(), $this->createClubData());
+        $response = $client->getResponse();
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'));
+        $this->assertJson($response->getContent());
+        $client->catchExceptions(false);
+        $this->assertResponseIsSuccessful();
+        $responseContent = $client->getResponse()->getContent();
+        echo $this->createRandClub() . $responseContent . PHP_EOL;
+    }
+
 
     /*----------------------------------------DELETE CLUB-------------------------------------*/
     public function testResponseSuccessfulDeleteClub(): void
