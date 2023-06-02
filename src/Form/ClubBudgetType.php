@@ -12,9 +12,6 @@ class ClubBudgetType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->remove('name')
-            ->remove('phone')
-            ->remove('email')
             ->add('budget');
     }
 

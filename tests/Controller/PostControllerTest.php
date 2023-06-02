@@ -25,7 +25,7 @@ class PostControllerTest extends WebTestCase
             "name" => chr(rand(65, 90)) . chr(rand(65, 90)) . chr(rand(65, 90)),
             "budget" => rand(50, 60) * 500,
             "email" => "club" . rand(1, 999) . "@email.com",
-            "phone" => "125656" . rand(100, 999)];
+            "phone" => "12565" . rand(1000, 9999)];
     }
 
     private function CreateRandClub(): int
@@ -51,7 +51,7 @@ class PostControllerTest extends WebTestCase
             "email" => "player" . rand(1, 999) . "@email.com",
             "dni" => "12345" . rand(100, 990) . chr(rand(65, 90)),
             "salary" => rand(30, 35) * 50,
-            "phone" => "125656" . rand(100, 999)];
+            "phone" => "12565" . rand(1000, 9099)];
     }
 
 
@@ -79,7 +79,7 @@ class PostControllerTest extends WebTestCase
             "email" => "trainer" . rand(1, 999) . "@email.com",
             "dni" => "12345" . rand(100, 999) . chr(rand(65, 90)),
             "salary" => rand(40, 60) * 50,
-            "phone" => "125656" . rand(100, 999)];
+            "phone" => "12565" . rand(1000, 9999)];
     }
 
     private function createRandTrainer(): int
