@@ -93,7 +93,8 @@ After creating the entities I had to migrate them to my MySQL database. First wi
 to create the migration and second ```php bin/console doctrine:migrations:migrate``` to migrate it.
 
 Then, I created the controllers manually in the dir **src/Controller** and started coding the
-**CRUD**. Next, I installed the forms with ```composer require symfony/form``` and made the form **ClubType**
+**CRUD** (Create, Read, Update, Delete). Next, I installed the forms with ```composer require symfony/form``` and made
+the form **ClubType**
 with ```php bin/console make:form```.
 
 The next step I did was to install ```composer require symfony/validator```.
@@ -102,9 +103,10 @@ After this, I started the coding of the **buildForm** in **ClubType** and change
 function **create** to a form with a **validator**.
 
 Later, I did all the functions of the **CRUD** with a better code and a form in create (**'POST'**) and update
-(**'PUT'**), next I started to coding the **'constraints'** on **ClubType** to make some restrictions in the inserts.
-When I finished this form, I started the update of the other **Controllers** and **Forms**. And, I started the code so
-that the **'value'** of a **'field'** is not repeated, in each **Entity Class**, with this function:
+(**'PUT'**), next I started the coding of the **'constraints'** on **ClubType** to make some restrictions in the
+inserts.
+When I finished this form, I started the update of the other **Controllers** and **Forms**. And, beginning the code so
+that the **'value'** of a **'field'** is not repeated in each **Entity Class**. With this function:
 
 ``` 
 public static function loadValidatorMetadata(ClassMetadata $metadata)
@@ -136,9 +138,29 @@ Later, I updated the **SalaryValidator** because I found an error that if you wa
 with the function **create** with the method **'POST'** in **PlayerController/TrainerController**. It always needed the
 **club** to validate it's **budget**, but it was unnecessary, because I needed to create a new player without a team.
 
+The next thing I did, was to install ``` composer require symfony/mailer``` to use it in the function create or delete
+to
+send a message to the player or trainer when they got created/registered or deleted/dropped from a club.
+
 Now, I had installed the symfony/test-pack with ```composer require --dev symfony/test-pack``` this should automatically
 create **phpunit.xml.dist** and **tests/bootstrap.php**. But, If these files are missing, you can try
-running ```composer recipes:install phpunit/phpunit --force -v```.
+running ```composer recipes:install phpunit/phpunit --force -v```. And, I ran ```sudo apt install phpunit``` to install
+phpunit that runs the tests.
 
+After this is installed I ran ```php bin/console make:test``` with a **WebTestCase** to create the
+**PostControllerTest** class. Next,
+I had installed ```composer require --dev dama/doctrine-test-bundle```.
+Then, deleted:
 
+```when@test:
+doctrine:
+dbal:
+# "TEST_TOKEN" is typically set by ParaTest
+dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+```
+
+from **config/packages/doctrine.yaml** to make the test use the actual database I've been using, and not a new
+test-club_management.
+Later, I've started the coding of the test, and the updates. Trying them everytime with ```phpunit``` to run them, and
+see where they fail or success.
 

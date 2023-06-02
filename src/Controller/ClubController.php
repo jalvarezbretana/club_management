@@ -12,6 +12,9 @@ use App\Helper\FormErrorsToArray;
 use App\Repository\ClubRepository;
 use App\Repository\PlayerRepository;
 use App\Repository\TrainerRepository;
+//use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -219,6 +222,10 @@ class ClubController extends AbstractController
 //
 //    }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     #[Route('/club/{id}/player', name: 'club_list_player', methods: 'GET')]
     public function club_list_players(Request $request, Club $club): Response
     {
