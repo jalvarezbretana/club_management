@@ -160,7 +160,7 @@ dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 ```
 
 from **config/packages/doctrine.yaml** to make the test use the actual database I've been using, and not a new
-test-club_management.
-Later, I've started the coding of the test, and the updates. Trying them everytime with ```phpunit``` to run them, and
+test_club_management.
+Later, I've started the coding of the tests, updating and trying them everytime with ```phpunit``` to run them, and
 see where they fail or success.
 
