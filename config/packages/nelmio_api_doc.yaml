@@ -7,7 +7,7 @@ nelmio_api_doc:
     paths:
       /club:
         get:
-          summary: Return a list of all clubs with each players and trainers.
+          summary: Returns a list with all clubs with each players and trainers.
           responses:
             '200': #status code
               description: OK
@@ -127,7 +127,7 @@ nelmio_api_doc:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's ID.
           responses:
             '200': #status code
               description: Club updated successfully.
@@ -176,7 +176,7 @@ nelmio_api_doc:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A player's ID.
               schema:
                 type: integer
                 minimum: 1
@@ -211,7 +211,6 @@ nelmio_api_doc:
                           type: integer
                           format: int64
                           example: 2
-
         post:
           summary: Creates a player in a club.
           parameters:
@@ -251,7 +250,288 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
-
+      /player:
+        get:
+          summary: Returns a list with all players.
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      PLAYERS:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              format: int64
+                              example: 1
+                            name:
+                              type: string
+                              example: Peter
+                            surname:
+                              type: string
+                              example: Parker
+                            email:
+                              type: string
+                              example: spiderman@email.com
+                            dni:
+                              type: string
+                              example: 19621962S
+                            salary:
+                              type: integer
+                              format: int64
+                              example: 2000
+                            phone:
+                              type: integer
+                              example: 196219621
+                            club_id:
+                              type: integer
+                              format: int64
+                              example: 1
+                            club:
+                              type: string
+                              example: Marvel
+            default:
+              description: Unexpected error
+        post:
+          summary: Creates a player.
+          responses:
+            '200': #status code
+              description: OK
+            '400':
+              description: Bad request
+            default:
+              description: Unexpected error
+      /player/{id}:
+        get:
+          summary: Returns a list with a trainer's details.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A player's ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        example: 1
+                      name:
+                        type: string
+                        example: J. Jonah
+                      surname:
+                        type: string
+                        example: Jameson
+                      email:
+                        type: string
+                        example: jjjameson@email.com
+                      dni:
+                        type: string
+                        example: 19631963J
+                      salary:
+                        type: integer
+                        format: int64
+                        example: 2500
+                      club_id:
+                        type: integer
+                        format: int64
+                        example: 1
+                      club:
+                        type: string
+                        example: Marvel
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        put:
+          summary: Updates a trainer.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A player's ID.
+          responses:
+            '200': #status code
+              description: Player updated successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        delete:
+          summary: Deletes a player.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A player's ID.
+          responses:
+            '200': #status code
+              description: Player deleted successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+      /trainer:
+        get:
+          summary: Returns a list with all trainers.
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      PLAYERS:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              format: int64
+                              example: 1
+                            name:
+                              type: string
+                              example: J. Jonah
+                            surname:
+                              type: string
+                              example: Jameson
+                            email:
+                              type: string
+                              example: jjjameson@email.com
+                            dni:
+                              type: string
+                              example: 19631963J
+                            salary:
+                              type: integer
+                              format: int64
+                              example: 2500
+                            phone:
+                              type: integer
+                              example: 196319631
+                            club_id:
+                              type: integer
+                              format: int64
+                              example: 1
+                            club:
+                              type: string
+                              example: Marvel
+            default:
+              description: Unexpected error
+        post:
+          summary: Creates a trainer.
+          responses:
+            '200': #status code
+              description: OK
+            '400':
+              description: Bad request
+            default:
+              description: Unexpected error
+      /trainer/{id}:
+        get:
+          summary: Returns a list with a player's details.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A trainer's ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                        example: 1
+                      name:
+                        type: string
+                        example: Peter
+                      surname:
+                        type: string
+                        example: Parker
+                      email:
+                        type: string
+                        example: spiderman@email.com
+                      dni:
+                        type: string
+                        example: 19621962S
+                      salary:
+                        type: integer
+                        format: int64
+                        example: 2000
+                      club_id:
+                        type: integer
+                        format: int64
+                        example: 1
+                      club:
+                        type: string
+                        example: Marvel
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        put:
+          summary: Updates a player.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A trainer's ID.
+          responses:
+            '200': #status code
+              description: Player updated successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        delete:
+          summary: Deletes a player.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A trainer's ID.
+          responses:
+            '200': #status code
+              description: Player deleted successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
 
 
 #  areas: # to filter documented areas
