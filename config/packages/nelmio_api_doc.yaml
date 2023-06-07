@@ -501,7 +501,7 @@ nelmio_api_doc:
             default:
               description: Unexpected error
         put:
-          summary: Updates a player.
+          summary: Updates a trainer.
           parameters:
             - name: id
               in: path
@@ -517,7 +517,7 @@ nelmio_api_doc:
             default:
               description: Unexpected error
         delete:
-          summary: Deletes a player.
+          summary: Deletes a trainer.
           parameters:
             - name: id
               in: path
