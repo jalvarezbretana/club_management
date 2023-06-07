@@ -450,7 +450,7 @@ nelmio_api_doc:
               description: Unexpected error
       /trainer/{id}:
         get:
-          summary: Returns a list with a player's details.
+          summary: Returns a list with a trainer's details.
           parameters:
             - name: id
               in: path
