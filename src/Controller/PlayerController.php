@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Attributes as OA;
 
 class PlayerController extends AbstractController
 {
@@ -22,6 +25,8 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player', name: 'player_index', methods: 'GET')]
+    #[OA\Get(path: '/player', tags: ['Player CRUD'])]
+
     public function index(): Response
     {
         $players = $this->playerRepository->findAll();
@@ -59,6 +64,8 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player', name: 'player_create', methods: 'POST')]
+    #[OA\Post(path: '/player', tags: ['Player CRUD'])]
+
     public function create(Request $request): Response
     {
         $player = new Player();
@@ -74,6 +81,8 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player/{id}', name: 'player_show', methods: 'GET')]
+    #[OA\Get(path: '/player/{id}', tags: ['Player CRUD'])]
+
     public function show(Player $player): Response
     {
         $club = $player->getClub();
@@ -92,6 +101,8 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player/{id}', name: 'player_update', methods: 'PUT')]
+    #[OA\Put(path: '/player/{id}', tags: ['Player CRUD'])]
+
     public function update(Request $request, Player $player): Response
     {
         $form = $this->createForm(PlayerType::class, $player, ["method" => "PUT"]);
@@ -108,6 +119,8 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player/{id}', name: 'player_delete', methods: 'DELETE')]
+    #[OA\Delete(path: '/player/{id}', tags: ['Player CRUD'])]
+
     public function delete(Player $player): Response
     {
         $this->playerRepository->remove($player, true);

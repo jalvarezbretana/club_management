@@ -1,0 +1,259 @@
+nelmio_api_doc:
+  documentation:
+    info:
+      title: club_management
+      description: This is an app that manages a league with its clubs, players and trainers!
+      version: 1.0.0
+    paths:
+      /club:
+        get:
+          summary: Return a list of all clubs with each players and trainers.
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      CLUBS:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              format: int64
+                              example: 1
+                            name:
+                              type: string
+                              example: Marvel
+                            email:
+                              type: string
+                              example: marvel@email.com
+                            total_budget:
+                              type: integer
+                              format: int64
+                              example: 30000
+                            remaining_budget:
+                              type: integer
+                              format: int64
+                              example: 20000
+                            phone:
+                              type: integer
+                              example: 999999999
+                            players:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                    format: int64
+                                    example: 1
+                                  name:
+                                    type: string
+                                    example: Peter
+                                  salary:
+                                    type: integer
+                                    format: int64
+                                    example: 2000
+                            trainers:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                    format: int64
+                                    example: 1
+                                  name:
+                                    type: string
+                                    example: J. Jonah
+                                  salary:
+                                    type: integer
+                                    format: int64
+                                    example: 2500
+            default:
+              description: Unexpected error
+        post:
+          summary: Creates a club.
+          responses:
+            '200': #status code
+              description: OK
+            '400':
+              description: Bad request
+            default:
+              description: Unexpected error
+      /club/{id}:
+        get:
+          summary: Returns a list of a club with its total and remaining budget.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Marvel
+                      total_budget:
+                        type: integer
+                        format: int64
+                        example: 30000
+                      remaining_budget:
+                        type: integer
+                        format: int64
+                        example: 20000
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        put:
+          summary: Updates a club.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+          responses:
+            '200': #status code
+              description: Club updated successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        delete:
+          summary: Deletes a club.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+          responses:
+            '200': #status code
+              description: Club deleted successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+        patch:
+          summary: Updates club's budget.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+          responses:
+            '200': #status code
+              description: Club's budget updated successfully.
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+      /club/{id}/player:
+        get:
+          summary: Returns a list of a club with its players listed by name and with pagination.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        club:
+                          type: string
+                          example: 'Marvel'
+                        players:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: object
+                          example:
+                            - name: Eddie
+                            - name: Peter
+                        page:
+                          type: integer
+                          format: int64
+                          example: 1
+                        total_players:
+                          type: integer
+                          format: int64
+                          example: 2
+
+        post:
+          summary: Creates a player in a club.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: Player created successfully
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+      /club/{id}/trainer:
+        post:
+          summary: Creates a trainer in a club.
+          parameters:
+            - name: id
+              in: path
+              required: true
+              description: A Club ID.
+              schema:
+                type: integer
+                minimum: 1
+          responses:
+            '200': #status code
+              description: Trainer created successfully
+            '400':
+              description: Bad Request
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
+
+
+
+#  areas: # to filter documented areas
+#    path_patterns:
+#      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

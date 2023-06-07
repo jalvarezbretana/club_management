@@ -22,6 +22,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
+use OpenApi\Attributes as OA;
 
 
 class ClubController extends AbstractController
@@ -32,7 +35,9 @@ class ClubController extends AbstractController
 
     }
 
+
     #[Route('/club', name: 'club_index', methods: 'GET')]
+    #[OA\Get(path: '/club', tags: ['Club CRUD'])]
     public function index(): Response
     {
         $clubs = $this->clubRepository->findAll();
@@ -53,17 +58,21 @@ class ClubController extends AbstractController
             foreach ($players as $player) {
                 $playerId = $player->getId();
                 $playerName = $player->getName();
+                $playerSalary = $player->getSalary();
                 $playerData[] = [
                     'id' => $playerId,
                     'name' => $playerName,
+                    'salary' => $playerSalary
                 ];
             }
             foreach ($trainers as $trainer) {
                 $trainerId = $trainer->getId();
                 $trainerName = $trainer->getName();
+                $trainerSalary = $trainer->getSalary();
                 $trainerData[] = [
                     'id' => $trainerId,
                     'name' => $trainerName,
+                    'salary' => $trainerSalary,
                 ];
             }
 
@@ -84,6 +93,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club', name: 'club_create', methods: 'POST')]
+    #[OA\Post(path: '/club', tags: ['Club CRUD'])]
     public function create_club(Request $request): Response
     {
         $club = new Club();
@@ -98,6 +108,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}', name: 'club_show', methods: 'GET')]
+    #[OA\Get(path: '/club/{id}', tags: ['Club CRUD'])]
     public function show_club(Club $club): Response
     {
         return $this->json([
@@ -107,6 +118,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}', name: 'club_update', methods: 'PUT')]
+    #[OA\Put(path: '/club/{id}', tags: ['Club CRUD'])]
     public function update_club(Request $request, Club $club): Response
     {
         $form = $this->createForm(ClubType::class, $club, ["method" => "PUT"]);
@@ -121,6 +133,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}', name: 'club_update_budget', methods: 'PATCH')]
+    #[OA\Patch(path: '/club/{id}', tags: ['Club CRUD'])]
     public function update_budget(Request $request, Club $club): Response
     {
         $form = $this->createForm(ClubBudgetType::class, $club, ["method" => "PATCH"]);
@@ -136,6 +149,7 @@ class ClubController extends AbstractController
 
 
     #[Route('/club/{id}', name: 'club_delete', methods: 'DELETE')]
+    #[OA\Delete(path: '/club/{id}', tags: ['Club CRUD'])]
     public function delete_club(Club $club): Response
     {
         $this->clubRepository->remove($club, true);
@@ -143,6 +157,7 @@ class ClubController extends AbstractController
     }
 
     #[Route('/club/{id}/player', name: 'club_create_player', methods: 'POST')]
+    #[OA\Post(path: '/club/{id}/player', tags: ['Club CRUD'])]
     public function club_create_player(Request $request, Club $club): Response
     {
         $player = new Player();
@@ -181,6 +196,7 @@ class ClubController extends AbstractController
 //
 //    }
     #[Route('/club/{id}/trainer', name: 'club_create_trainer', methods: 'POST')]
+    #[OA\Post(path: '/club/{id}/trainer', tags: ['Club CRUD'])]
     public function club_create_trainer(Request $request, Club $club): Response
     {
         $trainer = new Trainer();
@@ -227,6 +243,7 @@ class ClubController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/club/{id}/player', name: 'club_list_player', methods: 'GET')]
+    #[OA\Get(path: '/club/{id}/player', tags: ['Club CRUD'])]
     public function club_list_players(Request $request, Club $club): Response
     {
         $club = $this->clubRepository->find($club->getId());
