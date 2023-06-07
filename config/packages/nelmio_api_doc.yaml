@@ -83,6 +83,18 @@ nelmio_api_doc:
               description: OK
             '400':
               description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
+
+
             default:
               description: Unexpected error
       /club/{id}:
@@ -116,7 +128,17 @@ nelmio_api_doc:
                         format: int64
                         example: 20000
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -132,7 +154,17 @@ nelmio_api_doc:
             '200': #status code
               description: Club updated successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -148,7 +180,17 @@ nelmio_api_doc:
             '200': #status code
               description: Club deleted successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -164,7 +206,17 @@ nelmio_api_doc:
             '200': #status code
               description: Club's budget updated successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -225,7 +277,17 @@ nelmio_api_doc:
             '200': #status code
               description: Player created successfully
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -245,7 +307,17 @@ nelmio_api_doc:
             '200': #status code
               description: Trainer created successfully
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -305,6 +377,16 @@ nelmio_api_doc:
               description: OK
             '400':
               description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             default:
               description: Unexpected error
       /player/{id}:
@@ -370,7 +452,17 @@ nelmio_api_doc:
             '200': #status code
               description: Player updated successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -386,7 +478,17 @@ nelmio_api_doc:
             '200': #status code
               description: Player deleted successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -446,6 +548,16 @@ nelmio_api_doc:
               description: OK
             '400':
               description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             default:
               description: Unexpected error
       /trainer/{id}:
@@ -511,7 +623,17 @@ nelmio_api_doc:
             '200': #status code
               description: Player updated successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
@@ -527,13 +649,21 @@ nelmio_api_doc:
             '200': #status code
               description: Player deleted successfully.
             '400':
-              description: Bad Request
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
             '404':
               description: Not found
             default:
               description: Unexpected error
-
-
 #  areas: # to filter documented areas
 #    path_patterns:
 #      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
