@@ -6,12 +6,6 @@ nelmio_api_doc:
       version: 1.0.0
     components:
       schemas:
-        playerName:
-          type: object
-          properties:
-            name:
-              type: string
-              example: Peter
         Club:
           type: object
           properties:
@@ -36,12 +30,75 @@ nelmio_api_doc:
             players:
               type: array
               items:
-                $ref: '#/components/schemas/Player'
+                $ref: '#/components/schemas/PlayerClubData'
             trainers:
               type: array
               items:
-                $ref: '#/components/schemas/Trainer'
+                $ref: '#/components/schemas/TrainerClubData'
+
         Player:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: Peter
+            surname:
+              type: string
+              example: Parker
+            email:
+              type: string
+              example: spiderman@email.com
+            dni:
+              type: string
+              example: 19621962S
+            salary:
+              type: integer
+              example: 2000
+            phone:
+              type: integer
+              example: 196219621
+            club_id:
+              type: integer
+              example: 1
+            club:
+              type: string
+              example: Marvel
+
+        Trainer:
+          type: object
+          properties:
+            id:
+              type: integer
+              example: 1
+            name:
+              type: string
+              example: J. Jonah
+            surname:
+              type: string
+              example: Jameson
+            email:
+              type: string
+              example: jjjameson@email.com
+            dni:
+              type: string
+              example: 19631963J
+            salary:
+              type: integer
+              example: 2500
+            phone:
+              type: integer
+              example: 196319631
+            club_id:
+              type: integer
+              example: 1
+            club:
+              type: string
+              example: Marvel
+
+        PlayerClubData:
           type: object
           properties:
             id:
@@ -53,7 +110,8 @@ nelmio_api_doc:
             salary:
               type: integer
               example: 2000
-        Trainer:
+
+        TrainerClubData:
           type: object
           properties:
             id:
@@ -65,6 +123,14 @@ nelmio_api_doc:
             salary:
               type: integer
               example: 2500
+
+        PlayerName:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Peter
+
     paths:
       /club:
         get:
@@ -83,6 +149,7 @@ nelmio_api_doc:
                           $ref: '#/components/schemas/Club'
             default:
               description: Unexpected error
+
         post:
           summary: Creates a club.
           responses:
@@ -100,10 +167,9 @@ nelmio_api_doc:
                         items:
                           type: string
                           example: Form not send
-
-
             default:
               description: Unexpected error
+
       /club/{id}:
         get:
           summary: Returns a list of a club with its total and remaining budget.
@@ -148,6 +214,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
         put:
           summary: Updates a club.
           parameters:
@@ -174,6 +241,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
         delete:
           summary: Deletes a club.
           parameters:
@@ -200,6 +268,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
         patch:
           summary: Updates a club's budget.
           parameters:
@@ -226,6 +295,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
       /club/{id}/player:
         get:
           summary: Returns a list of a club with its players listed by name and with pagination.
@@ -253,13 +323,14 @@ nelmio_api_doc:
                         players:
                           type: array
                           items:
-                            $ref: '#/components/schemas/playerName'
+                            $ref: '#/components/schemas/PlayerName'
                         page:
                           type: integer
                           example: 1
                         total_players:
                           type: integer
                           example: 1
+
         post:
           summary: Creates a player in a club.
           parameters:
@@ -289,6 +360,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
       /club/{id}/trainer:
         post:
           summary: Creates a trainer in a club.
@@ -319,6 +391,7 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
+
       /player:
         get:
           summary: Returns a list with all players.
@@ -333,37 +406,11 @@ nelmio_api_doc:
                       PLAYERS:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              example: 1
-                            name:
-                              type: string
-                              example: Peter
-                            surname:
-                              type: string
-                              example: Parker
-                            email:
-                              type: string
-                              example: spiderman@email.com
-                            dni:
-                              type: string
-                              example: 19621962S
-                            salary:
-                              type: integer
-                              example: 2000
-                            phone:
-                              type: integer
-                              example: 196219621
-                            club_id:
-                              type: integer
-                              example: 1
-                            club:
-                              type: string
-                              example: Marvel
+                          $ref: '#/components/schemas/Player'
+
             default:
               description: Unexpected error
+
         post:
           summary: Creates a player.
           responses:
@@ -383,6 +430,7 @@ nelmio_api_doc:
                           example: Form not send
             default:
               description: Unexpected error
+
       /player/{id}:
         get:
           summary: Returns a list with a player's details.
@@ -400,32 +448,8 @@ nelmio_api_doc:
               content:
                 application/json:
                   schema:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                      name:
-                        type: string
-                        example: J. Jonah
-                      surname:
-                        type: string
-                        example: Jameson
-                      email:
-                        type: string
-                        example: jjjameson@email.com
-                      dni:
-                        type: string
-                        example: 19631963J
-                      salary:
-                        type: integer
-                        example: 2500
-                      club_id:
-                        type: integer
-                        example: 1
-                      club:
-                        type: string
-                        example: Marvel
+                    $ref: '#/components/schemas/Player'
+
             '400':
               description: Bad Request
               content:
@@ -508,35 +532,8 @@ nelmio_api_doc:
                       TRAINERS:
                         type: array
                         items:
-                          type: object
-                          properties:
-                            id:
-                              type: integer
-                              example: 1
-                            name:
-                              type: string
-                              example: J. Jonah
-                            surname:
-                              type: string
-                              example: Jameson
-                            email:
-                              type: string
-                              example: jjjameson@email.com
-                            dni:
-                              type: string
-                              example: 19631963J
-                            salary:
-                              type: integer
-                              example: 2500
-                            phone:
-                              type: integer
-                              example: 196319631
-                            club_id:
-                              type: integer
-                              example: 1
-                            club:
-                              type: string
-                              example: Marvel
+                          $ref: '#/components/schemas/Trainer'
+
             default:
               description: Unexpected error
         post:
@@ -575,32 +572,8 @@ nelmio_api_doc:
               content:
                 application/json:
                   schema:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                        example: 1
-                      name:
-                        type: string
-                        example: Peter
-                      surname:
-                        type: string
-                        example: Parker
-                      email:
-                        type: string
-                        example: spiderman@email.com
-                      dni:
-                        type: string
-                        example: 19621962S
-                      salary:
-                        type: integer
-                        example: 2000
-                      club_id:
-                        type: integer
-                        example: 1
-                      club:
-                        type: string
-                        example: Marvel
+                    $ref: '#/components/schemas/Trainer'
+
             '400':
               description: Bad Request
               content:
