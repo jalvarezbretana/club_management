@@ -645,6 +645,14 @@ nelmio_api_doc:
           responses:
             '200': #status code
               description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Player created successfully
             '400':
               description: Bad request
               content:
@@ -865,6 +873,14 @@ nelmio_api_doc:
           responses:
             '200': #status code
               description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Trainer created successfully
             '400':
               description: Bad request
               content:
