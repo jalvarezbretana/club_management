@@ -184,6 +184,14 @@ nelmio_api_doc:
           responses:
             '200': #status code
               description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Club created successfully
             '400':
               description: Bad request
               content:
@@ -287,7 +295,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Club updated successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Club updated successfully
             '400':
               description: Bad request
               content:
@@ -320,7 +336,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Club deleted successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Club deleted successfully
             '400':
               description: Bad request
               content:
@@ -357,7 +381,15 @@ nelmio_api_doc:
               description: New budget
           responses:
             '200': #status code
-              description: Club's budget updated successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Club's budget updated successfully
             '400':
               description: Bad request
               content:
@@ -457,7 +489,15 @@ nelmio_api_doc:
                 type: integer
           responses:
             '200': #status code
-              description: Player created successfully
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Player created in club successfully
             '400':
               description: Bad request
               content:
@@ -520,7 +560,15 @@ nelmio_api_doc:
                 type: integer
           responses:
             '200': #status code
-              description: Trainer created successfully
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Trainer created in club successfully
             '400':
               description: Bad request
               content:
@@ -694,7 +742,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Player updated successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Player updated successfully
             '400':
               description: Bad request
               content:
@@ -726,7 +782,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Player deleted successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Player deleted successfully
             '400':
               description: Bad request
               content:
@@ -897,7 +961,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Player updated successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Trainer updated successfully
             '400':
               description: Bad request
               content:
@@ -929,7 +1001,15 @@ nelmio_api_doc:
 
           responses:
             '200': #status code
-              description: Player deleted successfully.
+              description: OK
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        example: Trainer deleted successfully
             '400':
               description: Bad request
               content:
