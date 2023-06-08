@@ -3,7 +3,7 @@ nelmio_api_doc:
     info:
       title: club_management
       description: This is an app that manages a league with its clubs, players and trainers!
-      version: 1.0.0
+      version: beta
     components:
       schemas:
         Club:
@@ -135,6 +135,8 @@ nelmio_api_doc:
       /club:
         get:
           summary: Returns a list with all clubs with each players and trainers.
+          tags:
+            - Club CRUD
           responses:
             '200': #status code
               description: OK
@@ -152,6 +154,33 @@ nelmio_api_doc:
 
         post:
           summary: Creates a club.
+          tags:
+            - Club CRUD
+          parameters:
+            - name: name
+              in: path
+              description: Club's name
+              required: true
+              schema:
+                type: string
+            - name: email
+              in: path
+              description: Email
+              required: true
+              schema:
+                type: string
+            - name: budget
+              in: path
+              description: Budget
+              required: true
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              description: Phone
+              required: true
+              schema:
+                type: integer
           responses:
             '200': #status code
               description: OK
@@ -173,11 +202,13 @@ nelmio_api_doc:
       /club/{id}:
         get:
           summary: Returns a list of a club with its total and remaining budget.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's id.
               schema:
                 type: integer
                 minimum: 1
@@ -217,11 +248,43 @@ nelmio_api_doc:
 
         put:
           summary: Updates a club.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
+              description: A club's id
               required: true
-              description: A club's ID.
+              schema:
+                type: integer
+                minimum: 1
+
+            - name: name
+              in: path
+              description: New club's name
+              required: true
+              schema:
+                type: string
+            - name: email
+              in: path
+              description: New email
+              required: true
+              schema:
+                type: string
+            - name: budget
+              in: path
+              description: New budget
+              required: true
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              description: New phone
+              required: true
+              schema:
+                type: integer
+                minimum: 1
+
           responses:
             '200': #status code
               description: Club updated successfully.
@@ -244,11 +307,17 @@ nelmio_api_doc:
 
         delete:
           summary: Deletes a club.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's id.
+              schema:
+                type: integer
+                minimum: 1
+
           responses:
             '200': #status code
               description: Club deleted successfully.
@@ -271,11 +340,21 @@ nelmio_api_doc:
 
         patch:
           summary: Updates a club's budget.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's id.
+              schema:
+                type: integer
+                minimum: 1
+
+            - name: budget
+              in: path
+              required: true
+              description: New budget
           responses:
             '200': #status code
               description: Club's budget updated successfully.
@@ -299,14 +378,17 @@ nelmio_api_doc:
       /club/{id}/player:
         get:
           summary: Returns a list of a club with its players listed by name and with pagination.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A player's ID.
+              description: A club's id.
               schema:
                 type: integer
                 minimum: 1
+
           responses:
             '200': #status code
               description: OK
@@ -333,14 +415,46 @@ nelmio_api_doc:
 
         post:
           summary: Creates a player in a club.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's id.
               schema:
                 type: integer
                 minimum: 1
+            - name: name
+              in: path
+              required: true
+              description: A player's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: A player's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: A player's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: A player's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: A player's phone.
+              schema:
+                type: integer
           responses:
             '200': #status code
               description: Player created successfully
@@ -364,14 +478,46 @@ nelmio_api_doc:
       /club/{id}/trainer:
         post:
           summary: Creates a trainer in a club.
+          tags:
+            - Club CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A Club ID.
+              description: A club's id.
               schema:
                 type: integer
                 minimum: 1
+            - name: name
+              in: path
+              required: true
+              description: A trainer's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: A trainer's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: A trainer's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: A trainer's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: A trainer's phone.
+              schema:
+                type: integer
           responses:
             '200': #status code
               description: Trainer created successfully
@@ -395,6 +541,8 @@ nelmio_api_doc:
       /player:
         get:
           summary: Returns a list with all players.
+          tags:
+            - Player CRUD
           responses:
             '200': #status code
               description: OK
@@ -413,6 +561,39 @@ nelmio_api_doc:
 
         post:
           summary: Creates a player.
+          tags:
+            - Player CRUD
+          parameters:
+            - name: name
+              in: path
+              required: true
+              description: A player's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: A player's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: A player's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: A player's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: A player's phone.
+              schema:
+                type: integer
           responses:
             '200': #status code
               description: OK
@@ -434,11 +615,13 @@ nelmio_api_doc:
       /player/{id}:
         get:
           summary: Returns a list with a player's details.
+          tags:
+            - Player CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A player's ID.
+              description: A player's id.
               schema:
                 type: integer
                 minimum: 1
@@ -468,11 +651,47 @@ nelmio_api_doc:
               description: Unexpected error
         put:
           summary: Updates a player.
+          tags:
+            - Player CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A player's ID.
+              description: A player's id.
+              schema:
+                type: integer
+                minimum: 1
+            - name: name
+              in: path
+              required: true
+              description: New player's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: New player's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: New player's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: New player's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: New player's phone.
+              schema:
+                type: integer
+
           responses:
             '200': #status code
               description: Player updated successfully.
@@ -494,11 +713,17 @@ nelmio_api_doc:
               description: Unexpected error
         delete:
           summary: Deletes a player.
+          tags:
+            - Player CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A player's ID.
+              description: A player's id.
+              schema:
+                type: integer
+                minimum: 1
+
           responses:
             '200': #status code
               description: Player deleted successfully.
@@ -521,6 +746,8 @@ nelmio_api_doc:
       /trainer:
         get:
           summary: Returns a list with all trainers.
+          tags:
+            - Trainer CRUD
           responses:
             '200': #status code
               description: OK
@@ -538,6 +765,39 @@ nelmio_api_doc:
               description: Unexpected error
         post:
           summary: Creates a trainer.
+          tags:
+            - Trainer CRUD
+          parameters:
+            - name: name
+              in: path
+              required: true
+              description: A trainer's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: A trainer's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: A trainer's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: A trainer's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: A trainer's phone.
+              schema:
+                type: integer
           responses:
             '200': #status code
               description: OK
@@ -558,11 +818,13 @@ nelmio_api_doc:
       /trainer/{id}:
         get:
           summary: Returns a list with a trainer's details.
+          tags:
+            - Trainer CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A trainer's ID.
+              description: A trainer's id.
               schema:
                 type: integer
                 minimum: 1
@@ -592,11 +854,47 @@ nelmio_api_doc:
               description: Unexpected error
         put:
           summary: Updates a trainer.
+          tags:
+            - Trainer CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A trainer's ID.
+              description: A trainer's id.
+              schema:
+                type: integer
+                minimum: 1
+            - name: name
+              in: path
+              required: true
+              description: New trainer's name.
+              schema:
+                type: string
+            - name: surname
+              in: path
+              required: true
+              description: New trainer's surname.
+              schema:
+                type: string
+            - name: dni
+              in: path
+              required: true
+              description: New trainer's DNI.
+              schema:
+                type: string
+            - name: salary
+              in: path
+              required: true
+              description: New trainer's salary.
+              schema:
+                type: integer
+            - name: phone
+              in: path
+              required: true
+              description: New trainer's phone.
+              schema:
+                type: integer
+
           responses:
             '200': #status code
               description: Player updated successfully.
@@ -618,11 +916,17 @@ nelmio_api_doc:
               description: Unexpected error
         delete:
           summary: Deletes a trainer.
+          tags:
+            - Trainer CRUD
           parameters:
             - name: id
               in: path
               required: true
-              description: A trainer's ID.
+              description: A trainer's id.
+              schema:
+                type: integer
+                minimum: 1
+
           responses:
             '200': #status code
               description: Player deleted successfully.
@@ -642,6 +946,6 @@ nelmio_api_doc:
               description: Not found
             default:
               description: Unexpected error
-#  areas: # to filter documented areas
-#    path_patterns:
-#      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+  areas: # to filter documented areas
+    path_patterns:
+      - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

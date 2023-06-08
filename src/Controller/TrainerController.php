@@ -26,7 +26,7 @@ class TrainerController extends AbstractController
     }
 
     #[Route('/trainer', name: 'trainer_index', methods: 'GET')]
-    #[OA\Get(path: '/trainer', tags: ['Trainer CRUD'])]
+//    #[OA\Get(path: '/trainer', tags: ['Trainer CRUD'])]
     public function index(): Response
     {
         $trainers = $this->trainerRepository->findAll();
@@ -63,7 +63,7 @@ class TrainerController extends AbstractController
 
 
     #[Route('/trainer', name: 'trainer_create', methods: 'POST')]
-    #[OA\Post(path: '/trainer', tags: ['Trainer CRUD'])]
+//    #[OA\Post(path: '/trainer', tags: ['Trainer CRUD'])]
     public function create(Request $request): Response
     {
         $trainer = new Trainer();
@@ -78,7 +78,7 @@ class TrainerController extends AbstractController
 
 
     #[Route('/trainer/{id}', name: 'trainer_show', methods: 'GET')]
-    #[OA\Get(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
+//    #[OA\Get(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
     public function show(Trainer $trainer): Response
     {
         $club = $trainer->getClub();
@@ -96,7 +96,7 @@ class TrainerController extends AbstractController
     }
 
     #[Route('/trainer/{id}', name: 'trainer_update', methods: 'PUT')]
-    #[OA\Put(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
+//    #[OA\Put(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
     public function update(Request $request, Trainer $trainer): Response
     {
         $form = $this->createForm(TrainerType::class, $trainer, ["method" => "PUT"]);
@@ -113,7 +113,7 @@ class TrainerController extends AbstractController
 
 
     #[Route('/trainer/{id}', name: 'trainers_delete', methods: 'DELETE')]
-    #[OA\Delete(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
+//    #[OA\Delete(path: '/trainer/{id}', tags: ['Trainer CRUD'])]
     public function delete(Trainer $trainer): Response
     {
         $this->trainerRepository->remove($trainer, true);

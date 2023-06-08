@@ -25,7 +25,7 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player', name: 'player_index', methods: 'GET')]
-    #[OA\Get(path: '/player', tags: ['Player CRUD'])]
+//    #[OA\Get(path: '/player', tags: ['Player CRUD'])]
 
     public function index(): Response
     {
@@ -64,7 +64,7 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player', name: 'player_create', methods: 'POST')]
-    #[OA\Post(path: '/player', tags: ['Player CRUD'])]
+//    #[OA\Post(path: '/player', tags: ['Player CRUD'])]
 
     public function create(Request $request): Response
     {
@@ -81,7 +81,7 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player/{id}', name: 'player_show', methods: 'GET')]
-    #[OA\Get(path: '/player/{id}', tags: ['Player CRUD'])]
+//    #[OA\Get(path: '/player/{id}', tags: ['Player CRUD'])]
 
     public function show(Player $player): Response
     {
@@ -101,7 +101,7 @@ class PlayerController extends AbstractController
 
 
     #[Route('/player/{id}', name: 'player_update', methods: 'PUT')]
-    #[OA\Put(path: '/player/{id}', tags: ['Player CRUD'])]
+//    #[OA\Put(path: '/player/{id}', tags: ['Player CRUD'])]
 
     public function update(Request $request, Player $player): Response
     {
@@ -119,7 +119,7 @@ class PlayerController extends AbstractController
     }
 
     #[Route('/player/{id}', name: 'player_delete', methods: 'DELETE')]
-    #[OA\Delete(path: '/player/{id}', tags: ['Player CRUD'])]
+//    #[OA\Delete(path: '/player/{id}', tags: ['Player CRUD'])]
 
     public function delete(Player $player): Response
     {
