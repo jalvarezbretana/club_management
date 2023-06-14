@@ -6,11 +6,16 @@
 {% block stylesheets %}
     {{ parent() }}
     <script>
-        window.addEventListener('DOMContentLoaded', function() {
-            var versionStamp = document.querySelector('span .version-stamp');
-            if (versionStamp) {
-                versionStamp.remove();
-            }
+        window.addEventListener('DOMContentLoaded', function () {
+            var copyButtons = document.querySelectorAll('.copy-to-clipboard');
+            copyButtons.forEach(function (button) {
+                button.parentNode.removeChild(button);
+            });
         });
     </script>
+    <style>
+        .operation-tag-content .arrow {
+            display: none;
+        }
+    </style>
 {% endblock %}
