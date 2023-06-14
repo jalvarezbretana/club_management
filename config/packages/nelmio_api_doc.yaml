@@ -237,18 +237,6 @@ nelmio_api_doc:
                       remaining_budget:
                         type: integer
                         example: 20000
-            '400':
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -345,18 +333,6 @@ nelmio_api_doc:
                       message:
                         type: string
                         example: Club deleted successfully
-            '400':
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -444,18 +420,6 @@ nelmio_api_doc:
                         total_players:
                           type: integer
                           example: 1
-            '400':
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -704,19 +668,6 @@ nelmio_api_doc:
                 application/json:
                   schema:
                     $ref: '#/components/schemas/Player'
-
-            '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -815,18 +766,6 @@ nelmio_api_doc:
                       message:
                         type: string
                         example: Player deleted successfully
-            '400':
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -931,19 +870,6 @@ nelmio_api_doc:
                 application/json:
                   schema:
                     $ref: '#/components/schemas/Trainer'
-
-            '400':
-              description: Bad Request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
@@ -1042,18 +968,6 @@ nelmio_api_doc:
                       message:
                         type: string
                         example: Trainer deleted successfully
-            '400':
-              description: Bad request
-              content:
-                application/json:
-                  schema:
-                    type: object
-                    properties:
-                      errors:
-                        type: array
-                        items:
-                          type: string
-                          example: Form not send
             '404':
               description: Not found
             default:
