@@ -5,6 +5,11 @@ nelmio_api_doc:
       description: This is an app that manages a league with its clubs, players and trainers!
       version: beta
     components:
+      securitySchemes:
+        Bearer:
+          type: apiKey
+          name: Authorization
+          in: header
       schemas:
         Club:
           type: object
@@ -135,6 +140,8 @@ nelmio_api_doc:
       /club:
         get:
           summary: Returns a list with all clubs with each players and trainers.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           responses:
@@ -154,6 +161,8 @@ nelmio_api_doc:
 
         post:
           summary: Creates a club.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -210,6 +219,8 @@ nelmio_api_doc:
       /club/{id}:
         get:
           summary: Returns a list of a club with its total and remaining budget.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -244,6 +255,8 @@ nelmio_api_doc:
 
         put:
           summary: Updates a club.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -311,6 +324,8 @@ nelmio_api_doc:
 
         delete:
           summary: Deletes a club.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -340,6 +355,8 @@ nelmio_api_doc:
 
         patch:
           summary: Updates a club's budget.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -386,6 +403,8 @@ nelmio_api_doc:
       /club/{id}/player:
         get:
           summary: Returns a list of a club with its players listed by name and with pagination.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -427,6 +446,8 @@ nelmio_api_doc:
 
         post:
           summary: Creates a player in a club.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -498,6 +519,8 @@ nelmio_api_doc:
       /club/{id}/trainer:
         post:
           summary: Creates a trainer in a club.
+          security:
+            - Bearer: [ ]
           tags:
             - Club CRUD
           parameters:
@@ -569,6 +592,8 @@ nelmio_api_doc:
       /player:
         get:
           summary: Returns a list with all players.
+          security:
+            - Bearer: [ ]
           tags:
             - Player CRUD
           responses:
@@ -589,6 +614,8 @@ nelmio_api_doc:
 
         post:
           summary: Creates a player.
+          security:
+            - Bearer: [ ]
           tags:
             - Player CRUD
           parameters:
@@ -651,6 +678,8 @@ nelmio_api_doc:
       /player/{id}:
         get:
           summary: Returns a list with a player's details.
+          security:
+            - Bearer: [ ]
           tags:
             - Player CRUD
           parameters:
@@ -674,6 +703,8 @@ nelmio_api_doc:
               description: Unexpected error
         put:
           summary: Updates a player.
+          security:
+            - Bearer: [ ]
           tags:
             - Player CRUD
           parameters:
@@ -744,6 +775,8 @@ nelmio_api_doc:
               description: Unexpected error
         delete:
           summary: Deletes a player.
+          security:
+            - Bearer: [ ]
           tags:
             - Player CRUD
           parameters:
@@ -773,6 +806,8 @@ nelmio_api_doc:
       /trainer:
         get:
           summary: Returns a list with all trainers.
+          security:
+            - Bearer: [ ]
           tags:
             - Trainer CRUD
           responses:
@@ -792,6 +827,8 @@ nelmio_api_doc:
               description: Unexpected error
         post:
           summary: Creates a trainer.
+          security:
+            - Bearer: [ ]
           tags:
             - Trainer CRUD
           parameters:
@@ -853,6 +890,8 @@ nelmio_api_doc:
       /trainer/{id}:
         get:
           summary: Returns a list with a trainer's details.
+          security:
+            - Bearer: [ ]
           tags:
             - Trainer CRUD
           parameters:
@@ -876,6 +915,8 @@ nelmio_api_doc:
               description: Unexpected error
         put:
           summary: Updates a trainer.
+          security:
+            - Bearer: [ ]
           tags:
             - Trainer CRUD
           parameters:
@@ -946,6 +987,8 @@ nelmio_api_doc:
               description: Unexpected error
         delete:
           summary: Deletes a trainer.
+          security:
+            - Bearer: [ ]
           tags:
             - Trainer CRUD
           parameters:

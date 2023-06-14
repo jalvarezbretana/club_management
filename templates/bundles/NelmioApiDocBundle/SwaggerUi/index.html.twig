@@ -1,0 +1,16 @@
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+
+{% block header %}
+    <a style="text-decoration: none;" id="logo" href="#" target="_blank"></a>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <script>
+        window.addEventListener('DOMContentLoaded', function() {
+            var versionStamp = document.querySelector('span .version-stamp');
+            if (versionStamp) {
+                versionStamp.remove();
+            }
+        });
+    </script>
+{% endblock %}
