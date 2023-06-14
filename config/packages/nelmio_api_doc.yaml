@@ -444,6 +444,22 @@ nelmio_api_doc:
                         total_players:
                           type: integer
                           example: 1
+            '400':
+              description: Bad request
+              content:
+                application/json:
+                  schema:
+                    type: object
+                    properties:
+                      errors:
+                        type: array
+                        items:
+                          type: string
+                          example: Form not send
+            '404':
+              description: Not found
+            default:
+              description: Unexpected error
 
         post:
           summary: Creates a player in a club.
