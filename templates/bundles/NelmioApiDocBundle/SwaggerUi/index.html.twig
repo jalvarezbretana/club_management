@@ -5,17 +5,17 @@
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
-    <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            var copyButtons = document.querySelectorAll('.copy-to-clipboard');
-            copyButtons.forEach(function (button) {
-                button.parentNode.removeChild(button);
-            });
-        });
-    </script>
     <style>
         .operation-tag-content .arrow {
             display: none;
         }
     </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            var versionStamp = document.querySelectorAll('.version-stamp');
+            versionStamp.forEach(function (button) {
+                button.parentNode.removeChild(button);
+            });
+        });
+    </script>
 {% endblock %}
